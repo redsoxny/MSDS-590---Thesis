@@ -1,0 +1,14 @@
+\subsection{Update to L(\cdot)}
+The probability barabasi-albert equation holds that the rich get richer, as a new node is more likely to follow a user with more connections than one with fewer connections, as seen in equation *** do this ***
+
+However, there is an alternative hypothesis that this does not include partisanship.
+
+Therefore, let the null hypothesis, $H_0$, be that partisanship has no bearing a new node following an existing node, and the alternative hypothesis, $H_a$, be that partisanship is important.
+
+FiveThirtyEight tracked every vote taken by every senator in the 116th congress and provided the rates of how frequently they voted with President Trump. When plotted in histogram format where Democrat senators are blue, Republican senators are red, and the two Independent senators are orange: 
+
+
+
+To test this hypothesis, the twitter follower count of each representative in the 116th congress was attached to their voting records (Some representatives have multiple accounts. When in doubt, the account with the higher number of followers was selected). Representatives without a Twitter account were removed from the data set. 
+
+A $\chi^2$ test was then performed on the Republican representatives, as the kurtosis of partisanship for the Democratic members is 76, whereas the kurtosis of the Republican members is 21. 97 of the 236 Democratic Representatives tracked were within two votes of each other during the entire session, so there would be no statistically relevant relationship between voting pattern and followers. However, for Republicans ($n = 199$), the $p$-value for this test was $p=0.0005$. Therefore we can say that -- for Republicans in the 116th congress at least -- the null hypothesis should be rejected, and we should conclude that there is a relationship between twitter followers and voting patterns.

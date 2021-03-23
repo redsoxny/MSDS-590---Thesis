@@ -736,13 +736,15 @@ The same is true of the second most retweeted "false" tweet in the set from the 
 \end{figure}
 That tweet is also marked as a "rumor", even though it was not only true but from a reputable source. This data set does not differentiate between reputable and disreputable sources, nor does it do any post-hoc validation. This makes the truth values for this set highly problematic, and makes all of the RNN analyses off of this set equally untrustworthy. This thesis therefore discards the results of \citep{liu2018early,ma2017detect,ma2016detecting,khoo2020interpretable,liu2019early,huang2019deep} in terms of classification of fake news. This thesis therefore rejects the $\tau'$ values provided by this set.
 
-Third, it has a disproportionately high number of users who are verified ($v = 1$). Twitter's requirements for being a verified account require follower count in the top 0.1\% of active accounts in a particular region or proof of being an important person off of twitter, such as being a professional artist/athlete, elected official, etc. \citep{twitter2020verified}; however, 1.4\% of the users in this set are verified. If verified is used as a quick stand-in for hub node, there are 14 times more hub nodes than would be expected in a random sample of twitter users. However, the total number of verified users is 3,061 with 212,360 unverified; yet the Arapacio set proposed only 1,000 hub nodes out of a set of 50,000,000. It's therefore likely that verified is an overly generous stand-in for hub nodes.
+Third, it has a disproportionately high number of users who are verified ($v = 1$). Twitter's requirements for being a verified account require follower count in the top 0.1\% of active accounts in a particular region or proof of being an important person off of twitter, such as being a professional artist/athlete, elected official, etc. \citep{twitter2020verified}; however, 1.4\% of the users in this set are verified. If verified is used as a quick stand-in for hub node, there are 14 times more hub nodes than would be expected in a random sample of twitter users. At the same time, there may be more verified users than necessary hub nodes. Since the total number of verified users is 3,061 with 212,360 unverified in the \textit{Twitter15} data set, yet the Arapacio set proposed only 1,000 hub nodes out of a set of 50,000,000, it is likely that users who are necessary hubs and users who are verified are not equivalent sets. Instead, users who are necessary hubs are likely a subset of users who are verified. 
 
-Fourth, it breaks down the retweet paths into ordered pairs $(u_i,z_i)$ with $u_i$ being the user retweeting and $j_i$ being a batched time interval which is correlated but not equal to the actual time the retweet was posted ($j_i \neq p_i$ as defined by equation \ref{j_i}). In order to make their data set more RNN friendly, each retweet path was batched and partitioned, so that the length of entire time series for each retweet path is unique, but the distance between intervals is equal. This means that all time-series related analysis would eventually have to be adjusted in order to provide relevant insights when working with a live-streaming data set. That having been said, the time series related work should be considered directionally meaningful.
+Fourth, it breaks down the retweet paths into ordered pairs $(u_i,j_i)$ with $u_i$ being the user retweeting and $j_i$ being a batched time interval which is correlated but not equal to the actual time the retweet was posted ($j_i \neq p_i$ as defined by equation \ref{j_i}). In order to make their data set more RNN friendly, each retweet path was batched and partitioned, so that the length of entire time series for each retweet path is unique, but the distance between intervals is equal \citep{shu2017fake}. Since $j$ is not dependent on a timestamp, plotting all tweet paths as $r$ vs. $j$ would appear to show all these tweets were posted at identical times. That is intuitively incorrect. 
+
+This means that all time-series related analysis would eventually have to be adjusted in order to provide relevant insights when working with a live-streaming data set. That having been said, the time series related work should be considered directionally meaningful.
 
 Because of this, this thesis will work primarily on the tweets holistically - since the goal of the thesis is to provide a framework to order tweets by importance of fact-checking, any post-hoc $\tau'$ value is irrelevant. The time values for each tweet are also not relevant as, intuitively, $p_i \neq p_j$ for most tweets. However, $j$ is a meaningful stand-in as it will allow periods of time to be compared between tweets posted at different times. 
 
- \subsection{User Data}
+\subsection{User Data}
 However, on the whole, this set matches much of the previous analysis. When plotting the $Y$ and $Z$ on a $\log_{10}$ scale (fig. \ref{fig:Twitter15 Follower}, fig. \ref{fig:Twitter15 Following}), the distribution is relatively normal and the power law (equation \ref{powerlaw}) holds true here:  $\gamma_{in} = 2.6$ and $\gamma_{out} = 1.62$. This is quite close to the $\gamma_{in}$ and the $\gamma_{out}$  from the Arapacio data set, 2.2 and 1.9 respectively.
  
  \begin{figure}[h]
@@ -758,7 +760,7 @@ However, on the whole, this set matches much of the previous analysis. When plot
 
 
 
-If the verified binary, $v \in \{0,1\}$, is a stand-in for hub nodes in this set, as suggested previously, then non-hub nodes are close to the Arapacio numbers but hub nodes have an even greater $\phi$ than in the Arapacio set: $\forall \ u_n| v_n = 0:\langle |Y_n| \rangle \leq 400, \langle |Z_n| \rangle \leq 500, \langle  \phi_n \rangle \approx \frac{4}{5}$ and $\forall \ u_n| v_n = 1:\langle |Y_n| \rangle \leq 18,000, \langle |Z_n| \rangle \leq 1,300, \langle  \phi_n \rangle \approx 13.8$. 13.8 is clearly much greater than $\frac{7}{10}$; this could be due to the time the sample was collected as the Arapacio set was collected in 2009. The Twitter15 set contains, for example, former President Barack Obama, whose account has over 110M followers. 
+If the verified binary, $v \in \{0,1\}$, is a stand-in for hub nodes in this set, even though it is overly generous as discussed earlier, then non-hub nodes are close to the Arapacio numbers but hub nodes have an even greater $\phi$ than in the Arapacio set: $\forall \ u_n| v_n = 0:\langle |Y_n| \rangle \leq 400, \langle |Z_n| \rangle \leq 500, \langle  \phi_n \rangle \approx \frac{4}{5}$ and $\forall \ u_n| v_n = 1:\langle |Y_n| \rangle \leq 18,000, \langle |Z_n| \rangle \leq 1,300, \langle  \phi_n \rangle \approx 13.8$. 13.8 is clearly much greater than $\frac{7}{10}$; this could be due to the time the sample was collected as the Arapacio set was collected in 2009. The Twitter15 set contains, for example, former President Barack Obama, whose account has over 110M followers. 
 
 Regardless, this set meets the requirements of a scale free network, and therefore all previously analyzed equations, such as equations \ref{Ldotpartisan} and \ref{echo chamber by followers} will be applied here.
 
@@ -931,9 +933,9 @@ To determine a more actionable $v_c$, $v$ can be rewritten as an integral starti
 \begin{equation}
 \begin{split}
     v & = 1 - \int_1^{\psi_{t}} P(\psi)d\psi \\
-    & = 1 - \int_1^{\psi_{t}} \psi^{-\gamma}d\psi \\
-    & = 1 - \left(\frac{\psi_{t}^{-\gamma +1}}{-\gamma+1}-\frac{1^{-\gamma +1}}{-\gamma+1}\right) \\
-    & = \frac{-\gamma+1 - \psi_{t}^{-\gamma +1} -  1^{-\gamma +1}}{-\gamma+1} \\
+   v & = 1 - \int_1^{\psi_{t}} \psi^{-\gamma}d\psi \\
+   v & = 1 - \left(\frac{\psi_{t}^{-\gamma +1}}{-\gamma+1}-\frac{1^{-\gamma +1}}{-\gamma+1}\right) \\
+   v & = \frac{-\gamma+1 - \psi_{t}^{-\gamma +1} -  1^{-\gamma +1}}{-\gamma+1} \\
    v(-\gamma + 1) & = -\gamma - \psi_{t}^{-\gamma +1}\\
    -\big(v(-\gamma + 1) + \gamma\big) & = \psi_{t}^{-\gamma+1}\\\
    \big(-v(-\gamma + 1) - \gamma\big)^{\frac{1}{-\gamma + 1}} & = \psi_t

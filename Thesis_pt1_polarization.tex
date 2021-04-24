@@ -1,87 +1,41 @@
 \documentclass[preprint,review,12pt]{elsarticle}
 
 \usepackage{amsmath}
-
 \usepackage{amsfonts}
 \usepackage{graphicx}
 \newcommand{\Rho}{\mathrm{\textit{P}}}
 \usepackage{subcaption}
 \usepackage{csquotes}
+\usepackage{epigraph}
+
+% \epigraphsize{\small}% Default
+\setlength\epigraphwidth{8cm}
+\setlength\epigraphrule{0pt}
+
+\usepackage{etoolbox}
 \usepackage{algorithm} 
 \usepackage{algpseudocode} 
-\usepackage{longtable}
 \usepackage[top=1.0in, bottom=1.0in, left=1.0in, right=1.0in]{geometry}
-\usepackage{url}
-\def\UrlBreaks{\do\/\do-}
-\usepackage{breakurl}
-\usepackage[breaklinks]{hyperref}
 \begin{document}
 
 \begin{frontmatter}
 
-%% Title, authors and addresses
 
-%% use the tnoteref command within \title for footnotes;
-%% use the tnotetext command for theassociated footnote;
-%% use the fnref command within \author or \address for footnotes;
-%% use the fntext command for theassociated footnote;
-%% use the corref command within \author for corresponding author footnotes;
-%% use the cortext command for theassociated footnote;
-%% use the ead command for the email address,
-%% and the form \ead[url] for the home page:
-%% \title{Title\tnoteref{label1}}
-%% \tnotetext[label1]{}
-%% \author{Name\corref{cor1}\fnref{label2}}
-%% \ead{email address}
-%% \ead[url]{home page}
-%% \fntext[label2]{}
-%% \cortext[cor1]{}
-%% \affiliation{organization={},
-%%             addressline={},
-%%             city={},
-%%             postcode={},
-%%             state={},
-%%             country={}}
-%% \fntext[label3]{}
+\title{Variety is the Spice of Life but not for \textit{My} Life: \\ An Examination of Polarization and Echo Chambers in Networks}
 
-\title{Who You Gonna Believe, Me or Your Lying Eyes?\\
-An Epidemiological Examination of Fake News and a Ranked Solution}
+\author{By \\\textbf{John Hawthorne Smith} \\Thesis Project \\Submitted in partial fulfillment of the \\requirements for the degree of \\ \\MASTER OF SCIENCE IN DATA SCIENCE \\ \\Northwestern University \\April, 2021 \\ \\Nathaniel D. Bastian, PhD, First Reader \\Syamala Srinivasan, PhD, Second Reader}
 
-%% use optional labels to link authors explicitly to addresses:
-%% \author[label1,label2]{}
-%% \affiliation[label1]{organization={},
-%%             addressline={},
-%%             city={},
-%%             postcode={},
-%%             state={},
-%%             country={}}
-%%
-%% \affiliation[label2]{organization={},
-%%             addressline={},
-%%             city={},
-%%             postcode={},
-%%             state={},
-%%             country={}}
 
-\author{By \\\textbf{John Hawthorne Smith} \\Thesis Project \\Submitted in partial fulfillment of the \\requirements for the degree of \\ \\MASTER OF SCIENCE IN DATA SCIENCE \\ \\Northwestern University \\March, 2021 \\ \\Nathaniel D. Bastian, PhD, First Reader \\Syamala Srinivasan, PhD, Second Reader}
-
-%\affiliation[Northwestern]{organization={Department One},%Department and Organization
-%            addressline={Address One}, 
-%            city={City One},
-%            postcode={00000}, 
-%            state={State One},
-%            country={Country One}}
-
-%\author[inst2]{Author Two}
 
 
 \begin{abstract}
 %% Text of abstract
-Within the past decade, social media has become a primary platform the dissemination and consumption of information and current events. One key problem with this is that, unlike with traditional news sources, social media posts do not have to go through a rigorous fact-checking process before spread to the world. In fact, as seen in the 2019 Mueller Report, malicious actors have intentionally spread untrue information in an effort to sway public opinion on topics such as the Black Lives Matter movement and the 2016 U.S. Presidential election. 
+Within the past decade, social media has become a primary platform for consumption of information and current events. Unlike with traditional news sources, however, social media posts do not have to go through a rigorous fact-checking process prior to publication. The 2019 Mueller Report illustrates how malicious actors have taken advantage of these lax requirements to sway public opinion on topics from the \#blacklivesmatter movement to the 2016 U.S. Presidential election. 
 
-Currently, social media companies rely primarily on communal-policing and communal-reporting of misinformation. However, it is unlikely that those events will happen with regularity since individuals in highly partisan environments are less concerned with the validity of a statement than they are with whether or not it aligns with their beliefs. To counteract this, most other literature on the topic is focused on building neural networks that will be able to detect accurate from misleading content; however, the rapidly evolving nature of misinformation means that they will have to be retrained and redeployed on an iterative and time consuming basis.
+A primary point of concern is that many strains of misinformation are being shared in politically homogeneous groups called \textit{echo-chambers}, which are incredibly susceptible to malicious actors. 
 
-This thesis, therefore, proposes a novel approach to the problem: treating misinformation as a virus. By viewing each strain of misinformation through an epidemiological lens, this thesis proposes a ranking system that third-party fact checkers can utilize to maximize their time and resources. By following this algorithm, they will always be validating the ``super-spreader” posts first, which will allow it to stay constantly current with the malicious actors. This algorithm is then tested against multiple data sets with strong positive results, decreasing viral spread of content by magnitudes in a matter of minutes.
+This thesis utilizes current network theory to propose a novel adjustment to the preferential attachment equation, which in turn allows for an improved process of \textit{echo-chamber} detection.
+
 \end{abstract}
 
 %%Graphical abstract
@@ -102,32 +56,21 @@ Social media \sep Fake news \sep Misinformation \sep Partisanship \sep Networks
 
 \end{frontmatter}
 
-\tableofcontents
+\epigraph{“Whenever people agree with me I always feel I must be wrong.”}{--- \textup{Oscar Wilde}}
 
 \section{Introduction}
+
 \label{introduction}
-\subsection{Background}
  In 2018, social media overtook print media as the fourth most popular source of news for Americans. As of 2019, 20\% ``often" got their news from social media \cite{shearer2018social}, while 68\% of all American got their news from social media at least occasionally \cite{matsa2018news}. This is not inherently a bad thing - in countries with authoritarian leaders and state-run media, social media may be the only outlet for opposition spokespeople to share their messages \cite{walker2014breaking}; ordinary citizens can now contribute their stories and experiences without the high financial barrier to entry that traditional journalism requires \cite{qualman2012socialnomics, tapscott2008wikinomics}; in unmanageable situations and crises, such as the 2017 Manchester bombing, social media allows for the instantaneous exchange of information between individuals and emergency management agencies \cite{mirbabaie2020breaking, eriksson2016facebook}; in situations like the COVID-19 pandemic, where information is rapidly evolving, social media allows for immediate knowledge dissemination by dramatically shortening the traditional time from publication to widespread translation to adoption \cite{chan2020social}. Furthermore, experts can readily reach followers who may not have deep knowledge of a subject - Dr. Esther Choo, a strong science communicator who writes for \textit{The Lancet} and frequently appears on \textit{NBC} and \textit{CNN}, has over 113,000 followers – and can increase awareness of public health needs and crises, while openly debating other experts and answering direct questions \cite{gottlieb2020information}.
 
 However, not all information shared on social media is true, and the subset of people who primarily get their news from social media tend to be less engaged, less knowledgeable of current events, more likely to hear unproven claims and conspiracy theories than those who get their news from more traditional sources, and are more likely to believe these conspiracies \cite{mitchell2020americans}. In just two examples of this, Edgar Maddison Welch drove from North Carolina to Washington D.C. with an AR-15 to investigate a fake pedophile conspiracy ring known as ``pizzagate" in December 2016, \cite{goldman2016comet}; in 2018, Burmese officials created over 1,000 Facebook posts filled with hate speech and detailing fake crimes committed by the Rohynga Muslim minority to justify one of the largest forced migrations in recent history \cite{subedar2018country}.
 
 Exacerbating this problem, the spread of correct information is much slower than that of misinformation: while true rumors tend to be validated within 2 hours of the first tweet, false rumors take about 14 hours to be debunked \cite{zubiaga2016analysing,shao2016hoaxy}. This is a problem since, in a crisis event, 50\% of all retweets occur within the first hour after a tweet is shared and 75\% are within the first day \cite{kwak2010twitter}. Even if an untrue story is debunked, corrective information does not reach as broad of an audience as misinformation does \cite{maddock2015characterizing, vosoughi2018spread}, and, in some cases, rumors and other fake stories actually see an increase in spread \textbf{after} they have been debunked \cite{starbird2014rumors}. In the case of the ``pizzagate" conspiracy, several news outlets -- including \textit{The Washington Post}, \textit{The New York Times}, and Snopes -- had debunked the story several months before Welch decided to drive to Washington D.C. \cite{kang2016fake,lacapria2016fact,board_2016}, yet pro-conspiracy posts on Facebook, Instagram, YouTube, and Twitter actually saw a sharp uptick as the supporters became more zealous post-debunking\cite{kang2016washington}. In fact, this fits a pattern where highly controversial and politicized topics spark backfire effects when passionately held misconceptions are challenged \cite{gollust2009polarizing,nyhan2010corrections,nyhan2013hazards,redlawsk2010affective,schaffner2016misinformation,hart2012boomerang}.
 
-At a very high level, this thesis seeks to balance this dilemma. If the viral spread of misinformation can be curbed before it reaches overzealous partisans, then the backfire effects and deadly scenarios can be avoided. 
-
 \subsection{Problem Statement}
 \label{Problem Statement}
 A reasonable person might still question at this point why this is a problem that needs solving. There is nothing fundamentally new and original about lying, especially on controversial or political topics. While this is true, it is imperative not to sink into an \textit{argument from inertia} fallacy \cite{bennett2012logically} and suggest that because history has survived this issue in the past, there is no reason to improve in the present. Arguably, there are three major reasons to try to prevent the spread of fake news: the legal, the ethical, and the humanitarian.
 
-\subsubsection{Legal Objection to Fake News}
-In 2014, 27 states prohibited false statements regarding elections \cite{Vasilogambros2019political}. While some of those states have had their laws reduced or reversed in the past 6 years, others have scaled up their laws regarding misinformation. One of the key results of Vol I of the Mueller Report was the indictment of ``13 Russian nationals and three Russian entities—including the Internet
-Research Agency (IRA) and Concord Management and Consulting LLC (Concord)—with violating U.S. criminal laws in order to interfere with U.S. elections and political processes" \cite{mueller2019mueller,mueller2020internet}.
-
-While it is true that the US Supreme Court has routinely ruled in favor of providing more freedom than less when it comes to speech, false statements with dire consequences do not fall under those rulings. In the US Supreme Court Ruling in 2012 on \textit{United States v. Alvarez}, the Court built on previous cases protecting First Amendment rights for even unsavory speech such as  \textit{Ashcroft v. ACLU 2002}, \textit{Ashcroft v. ACLU 2004}, \textit{Brandenburg v. Ohio}, and \textit{United States v. Stevens} by stating: 
-\begin{quote}The remedy for speech that is false is speech that is true. This is the ordinary course in a free society. The response to the unreasoned is the rational; to the uninformed, the enlightened; to the straight-out lie, the simple truth.\cite{scotus2012alvarez}\end{quote} 
-However, in that decision, the Supreme Court drew a distinction between false speech for falsity's sake and cases where there is demonstrable harm attached to the false statements such as in \textit{Hustler Magazine, Inc. v. Falwell}, \textit{Brown v. Hartlage}, \textit{Virginia Bd. of Pharmacy, supra}, \textit{Herbert v. Lando}, \textit{Gertz, supra}, and \textit{Garrison v. Louisiana}. In \textit{Garrison v. Louisiana}, the Court unequivocally stated ``[T]he knowingly false statement and the false statement made with reckless disregard of the truth, do not enjoy constitutional protection" \cite{scotus1964garrison} and in \textit{Hustler v. Falwell}: ``[f]alse statements of fact are particularly valueless [because] they interfere with the truth-seeking function of the marketplace of ideas" \cite{scotus1987hustler}. 
-
-While this thesis makes no pretense of being a legal brief or an analysis of constitutional law, it is valuable to confirm that the goal of this thesis is not fundamentally unconstitutional or illegal. In fact, the cited quote from \textit{Hustler v. Falwell} is the guiding principle of this thesis: it is not the intention of this thesis to remove bad ideas from the marketplace, but to remove bad faith ideas.
 
 \subsubsection{Ethical Objection to Fake News}
 In book one of \underline{Metaphysics of Morals}, Immanuel Kant argued that the great injustice of lying is that it robs the person being lied to of the freedom to make their own decisions \cite{kant1996metaphysics}. By operating with an incomplete or incorrect set of facts, a virtuous and rational person could make an unethical and misguided decision that they would not have made otherwise. This is not dissimilar from the arguments made in the Mueller report and in the indictment against the IRA: Count One was ``conspiracy to defraud the United States" in order to interfere in the 2016 election  \cite{mueller2019mueller,mueller2020internet}. The primary goal of the IRA, per Mueller, was to sow confusion -- getting individuals to accept the fraud was a bonus -- and make people unsure of which sources, if any, they could trust. That goal was successfully met as 64\% of Americans believe that fake news causes a great deal of confusion and roughly 1 in 4 admit to having shared fake stories themselves \cite{barthel2016americans}. Those rates of confusion are relatively consistent across the political spectrum, gender, income levels, etc. 
@@ -143,13 +86,10 @@ the viral spread of misinformation intends, at its core, to exploit human weakne
 
 \subsubsection{Humanitarian Objection to Fake News}
 \label{Humanitarian Objection to Fake News Section}
-The humanitarian arguments are the most important reasons for curbing the spread of disinformation. In previous sections, the ``pizzagate" story where a person brought an AR-15 into a restaurant was discussed, but this is far from a unique example. Hours after the 2013 Boston Marathon Bombing, members of social media hypothesized that an innocent Brown University student was behind the attack \cite{starbird2014rumors}; he committed suicide shortly after. A father of a child who was killed during the 2012 Sandy Hook shooting was harassed by social media members convinced that the shooting was a hoax \cite{williamson2019alex}; he too committed suicide shortly after. On September 9 2020, a conspiracy theory began that the fires in Oregon were started by the left-wing activist group called Antifa \cite{robinson2020oregon}; on September 11th, the FBI put out a statement declaring the reports untrue \cite{fbi2020portland}; on September 12th, Facebook began removing these untrue posts; weeks later, Oregon officials were still wasting resources that should have been going towards firefighting to handle the non-stop deluge of calls and emails about the rumor \cite{wilson2020oregon}. Most recently, on January 6, 2021, incited by the former President of the United States's debunked claims over election fraud and a baseless internet conspiracy group called Q-Anon, a mob broke into the U.S. Capitol and threatened to execute members of Congress and the Vice President \cite{fandos2021trump}; five people were killed directly from riot \cite{Levenson2021capitol}.
+The humanitarian arguments are the most important reasons for curbing the spread of disinformation. In previous sections, the ``pizzagate" story where a person brought an AR-15 into a restaurant was discussed, but this is far from a unique example. Hours after the 2013 Boston Marathon Bombing, members of social media hypothesized that an innocent Brown University student was behind the attack \cite{starbird2014rumors}; he committed suicide shortly after. A father of a child who was killed during the 2012 Sandy Hook shooting was harassed by social media members convinced that the shooting was a hoax \cite{williamson2019alex}; he too committed suicide shortly after. On September 9, 2020, a conspiracy theory began that the fires in Oregon were started by the left-wing activist group called Antifa \cite{robinson2020oregon}; on September 11th, the FBI put out a statement declaring the reports untrue \cite{fbi2020portland}; on September 12th, Facebook began removing these untrue posts; weeks later, Oregon officials were still wasting resources that should have been going towards firefighting to handle the non-stop deluge of calls and emails about the rumor \cite{wilson2020oregon}. Most recently, on January 6, 2021, incited by the former President of the United States's debunked claims over election fraud, a mob broke into the U.S. Capitol and threatened to execute members of Congress and the Vice President \cite{fandos2021trump}; five people were killed directly from riot \cite{Levenson2021capitol}.
 
 Not all misinformation leads to active cases of violence. Misinformation exacerbated the Ebola epidemic in West Africa \cite{shultz2016role}, interfered with measles vaccination efforts \cite{hussain2018anti}, and disrupted health policies and procedures during the current COVID-19 pandemic \cite{bagherpour2020covid,world2020novel,zarocostas2020fight,depoux2020pandemic,habersaat2020ten,van2020using}. Groups that were fed misinformation downplaying the severity of COVID-19 saw a higher lack of compliance with safety measures -- such as mask wearing and social distancing -- and a higher number of cases and deaths \cite{bursztyn2020misinformation}. Even though the United States has seen numerous days of more than 4,000 deaths due to the virus, only half of the country is currently planning on getting a vaccine when it's available \cite{cornwall2020just}. The misinformation content has run the gamut from misleading messages about the actions or policies of public officials \cite{brennen2020types}, to suggesting the vaccine is a conduit for Bill Gates to inject microchips into people \cite{sanders2020difference}, to blaming 5G cell towers \cite{jolley2020pylons,goodman2020coronavirus}, to inciting people to vandalism \cite{spring2020coronavirus}, to, in some cases, promoting mob violence and mass poisonings \cite{depoux2020pandemic}. Even if the final violent example is stripped away, the potentially unchecked spread of deadly disease is cause enough for concern. 
 
-\subsubsection{Summary}
-\label{misinformation summary}
-To summarize, misinformation is not protected by the First Amendment, is ethically wrong, and can have life-or-death consequences. This thesis does not seek to root out every misstatement, ill-thought out opinion, and dubious political attack ad. Instead, it is only focused on content that could provide a clear threat to election integrity, human life, etc. This limited scope is fundamentally different from the approaches taken by other recent literature on the topic, and will be discussed further in Sec. \ref{sec: literature review}.
 
 \subsection{Fake News Definition}
 \label{Fake News Definition Section}
@@ -190,15 +130,45 @@ While it is true that Amazon's employees have been denied hazard or sick pay (or
 
 Both Charlie Kirk's tweet and Senator Sanders's tweet fall under the purview of this thesis based on section \ref{Problem Statement}: they are both trying to influence a political discussion and use statements that are not entirely true to persuade susceptible readers. At the same time, they are not equivalent. Charlie Kirk's tweet featured a single true sentence and many surrounding falsehoods, while Senator Sanders's tweet had many true statements and one untrue (or at least misleading) statement. Much like how it was unreasonable to say $\tau_k = 0$ or $\tau_s = 1$, it is also unreasonable to say $\tau_k = \tau_s$. This nuance is meaningful and is not captured in the other literature. Therefore, an alternative solution to determining truth values must be used.
 
-In \underline{Critique of Pure Reason}, Immanuel Kant proposed that statements should be broken into four groups: \textit{analytic a priori}, \textit{analytic a posteriori}, \textit{synthetic a priori}, and \textit{synthetic a posteriori} \cite{kant1908critique,frege1988collected,quine1951main}. \textit{Analytic} statements, per Kant, have the predicate contained in the subject, whereas \textit{synthetic} statements require a combination of understandings; \textit{a priori} statements are known without needing experience, whereas \textit{a posteriori} statements require experience to know if they are true \cite{wright1997companion}. 
+In \underline{Critique of Pure Reason}, Immanuel Kant proposed that statements should be broken into four groups: \textit{analytic a priori}, \textit{analytic a posteriori}, \textit{synthetic a priori}, and \textit{synthetic a posteriori} \cite{kant1908critique,frege1988collected,quine1951main}. \textit{Analytic} statements, per Kant, have the predicate contained in the subject, whereas \textit{synthetic} statements require a combination of understandings; \textit{a priori} statements are known without needing experience, whereas \textit{a posteriori} statements require experience to know if they are true \cite{wright1997companion}. For our context (Table \ref{tab:misinformationexamples}):
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{ |p{3cm}|p{5cm}|p{5cm}|}
+    \hline
+    & Analytic & Synthetic\\
+    \hline
+    A Priori & Hate Speech & Spam\\
+    \hline
+    A Posteriori &  Scientific Misinformation  & General Misinformation\\
+    \hline
+    \end{tabular}
+    \caption{Misinformation Examples of Analytic/Synthetic Distinctions}
+    \label{tab:misinformationexamples}
+\end{table}
+in terms of truth values, $\tau$, \textit{a priori} and \textit{analytic} statements are binary, but \textit{synthetic a posteriori} sentences may have a range of truthfulness (such as being misleading, partially true, mostly true, etc.) (table \ref{tab:truthvalues}).
 
-A discussion on the four groups of statements, examples, and analysis are in \ref{truthvalue appendix}, but to summarize here, this thesis will only cover \textit{synthetic a posteriori} statements for which a truth value has not been determined. It will also cover statements that could be hyperbole, sarcasm, or irony (\ref{hyperbole}), as a random user may not immediately recognize that the content they are reading is sarcastic. It also does not differentiate between intentional and unintentional false statements. The question of intentionality is appropriate when determining punishment or if actions reach the level of fraud (and are therefore worthy of legal action), but it is not relevant to this thesis. A rapidly spreading false tweet about election fraud is equally destructive regardless of malicious intent.
+\begin{table}[h!]
+\centering
+\begin{tabular}{ |p{3cm}|p{5cm}|p{5cm}|}
+ \hline
+  & Analytic & Synthetic\\
+ \hline
+ A Priori & $\tau \in \mathbb{B}$ & $\tau \in \mathbb{B}$\\
+ \hline
+ A Posteriori &  $\tau \in \mathbb{B}$  & $\tau \in \mathbb{R} \ | \ 0 \leq \tau \leq 1$ \\
+ \hline
+\end{tabular}
+\caption{Truth Values of Analytic/Synthetic Distinctions}
+\label{tab:truthvalues}
+\end{table}
 
-It is important not to separate rumor from misinformation as Wu et al. or DiFonzo \& Bordia do since rumors can be just as destructive. In section \ref{Humanitarian Objection to Fake News Section}, examples were given regarding people who had committed suicide after being the victims of rumors \cite{starbird2014rumors,williamson2019alex}. The rumor that Antifa started the fires in Oregon hurt the firefighting efforts in the region  \cite{robinson2020oregon}. Baseless accusations of voter fraud led to five deaths in a riot at the capitol and the impeachment of a former US President \cite{fandos2021trump,Levenson2021capitol}.  Wu et al. and DiFonzo \& Bordia would have called all of these ``rumors" up until they were officially debunked, yet this delineation did not stop them from having very deadly and serious consequences in the interim.
+These proposed distinctions better capture the breadth of misinformation than the previously provided definitions: as with Klein, it concurs that intentionality is not relevant in determining truth value; unlike Wu et al. or DiFonzo \& Bordia, it makes no distinction between types of misinformation such as ``rumor" and ``misinformation"; unlike Liu \& Wu, it separates hate speech, spam, and scientific misinformation from generalized misinformation; unlike all other examples, it includes sarcasm, hyperbole, and irony. 
 
-It also important to separate out hate speech, spam, and scientific misinformation from generalized misinformation (Table \ref{tab:misinformationexamples} in appendix \ref{truthvalueappendixsummary}). These are tasks that current machine learning is uniquely suited for, already have a great deal of available literature \cite{xu2019exploiting,wang2010detecting,ahmed2018detecting,al2019spam,oriola2020evaluating,gaydhani2018detecting,al2020lies,farrell2019evidence}, and which this thesis does not plan to improve upon. By narrowing this thesis's scope and using these other tools in an auxiliary fashion, this thesis can focus on curbing the viral spread of misinformation that is currently being insufficiently defended against. 
+This thesis will only cover \textit{synthetic a posteriori} statements for which a truth value has not been determined. It will also cover statements that could be hyperbole, sarcasm, or irony, as a random user may not immediately recognize that the content they are reading is sarcastic. It also does not differentiate between intentional and unintentional false statements. The question of intentionality is appropriate when determining punishment or if actions reach the level of fraud (and are therefore worthy of legal action), but it is not relevant to this thesis. A rapidly spreading false tweet about election fraud is equally destructive regardless of malicious intent.
 
+It is important not to separate rumor from misinformation as Wu et al. or DiFonzo \& Bordia do since rumors can be just as destructive, as illustrated inn section \ref{Humanitarian Objection to Fake News Section}. Wu et al. and DiFonzo \& Bordia would have called all of these ``rumors" up until they were officially debunked, yet this delineation did not stop them from having very deadly and serious consequences in the interim.
 
+It also important to separate out hate speech, spam, and scientific misinformation from generalized misinformation (Table \ref{tab:misinformationexamples}). These are tasks that current machine learning is uniquely suited for, already have a great deal of available literature \cite{xu2019exploiting,wang2010detecting,ahmed2018detecting,al2019spam,oriola2020evaluating,gaydhani2018detecting,al2020lies,farrell2019evidence}, and which this thesis does not plan to improve upon. By narrowing this thesis's scope and using these other tools in an auxiliary fashion, this thesis can focus on curbing the viral spread of misinformation that is currently being insufficiently defended against. 
 
 \section{Literature Review}
 In all of the literature reviewed for this thesis on the topic fake news, there was very little if any time spent discussing the currently implemented solutions and their shortcomings. This thesis will try to rectify that and show why alternative solutions are needed in comparison to the status quo.
@@ -463,9 +433,13 @@ The GNNs mentioned in the literature review section similarly struggle with scal
 
 Along this same line of thinking, neural networks are only as useful as their training data set. Every single neural network discussed here is therefore ``hack-able" at the point that individuals determine the pattern being used to allocate a post into a remove/don't-remove bucket. Several of these neural networks include surface level data like length of user name -- if a malicious actor discovers that their disinformation is being flagged simply based off of user name length, all they have to do is change their user name and their content is allowed to flow freely. Based on Eqs. \ref{trollpartisanship} and \ref{peopletoextremes}, malicious actors are attempting to push networks towards extreme partisan views; whether they're doing it for ideological, financial, or other reasons, they are incentivized to find ways to circumvent the fact-checking process. These neural network solutions are far too easy to circumvent as is (see the variations of Fig. \ref{fig:Trump Shutterstock Image} vs Figs. \ref{fig:TrumpKKK1}, \ref{fig:TrumpKKK2}, \ref{fig:TrumpKKK3}) and will only be easier as disinformation campaigns become more sophisticated. This would require every one of these neural networks to be re-trained on an iterative basis. That is time-consuming and will always have lag -- it is a reactive instead of proactive solution.
 
-
 As Facebook's digital footprint grows, a successful solution must be able to grow with it and must not be easily circumvented. 
 
+\subsubsection{Hyperbole, Sarcasm, and Irony}
+\label{hyperbole}
+Current literature on using NLP to decipher sarcasm and irony primarily revolves around unexpected word combinations \cite{barbieri2014modelling,buschmeier2014impact,ghosh2015sarcastic} or RoBERTa recurrent neural networks \cite{potamias2020transformer}, and they all examine publicly available data sets, namely the Riloff Twitter set \cite{riloff2013sarcasm}, the Pt{\'a}{\v{c}}ek Twitter set \cite{ptavcek2014sarcasm}, the Khodak Reddit set \cite{khodak2017large} and two ``Semantic Evaluation Workshop Tasks" \cite{van2018semeval,ghosh2015semeval}. Many of these are able to generate quite high F1 scores, especially the RCNN-RoBERTa transformer proposed by Potomias, Siolas, and Stafylopatis, whose F1 score was consistently around 0.8 in each of the unique data sets. 
+
+However, as Oprea and Magdy point out, tools that are successful in one data set struggle in other data sets. Models trained in the Riloff data set can generate an F1 score above 0.8, but those same models will generate an F1 score near 0.5 (which is the same as random guessing) when applied to the Pt{\'a}{\v{c}}ek set \cite{oprea2019exploring}. This implies there are extreme differences in how groups express and perceive irony/sarcasm/hyperbole. Those differences are beyond the scope of what RNNs and RCNNs can currently successfully grasp. Therefore an alternative solution to handling irony on a global level is necessary. 
 
 
 \subsubsection{Summary}
@@ -499,6 +473,7 @@ To summarize, the issues with the current solution are:
          \item Loss of advertising rights is irrelevant to non-financially driven bad actors
          \item Decreased visibility (or removal) is easily circumvented by providing simple tweaks to the text or image
      \end{itemize}
+     \item Proposed RNN solutions are easily circumvented and are unable to effectively process hyperbole, sarcasm, and irony.
  \end{enumerate}
  
 \subsection{Alternative Solution: Flatten the Curve}
@@ -616,37 +591,6 @@ since $\sum_{j} k_j$ is constant for any network at the instant of a node's choi
     L(i \succ j)=\frac{P(k_i)}{P(k_j)} = \frac{k_i}{k_j}
 \end{equation}
 
-\subsection{Clustering \& Randomness}
-\label{sec: Clustering}
-As was discussed in \ref{sec: echo chambers}, social media users are more clustered than would be expected from a random network. The expected Barab{\'a}si-Albert clustering coefficient for user $u_i$ is the ratio of connections for that user's neighbor, $u_j$ over the total possible connections:
-\begin{equation}
-\label{clustering equation}
-    C_{i}=\frac{|\{\psi_{jk}: u_j,u_k \in N_i, \psi_{jk} \in \Psi\}|}{k_i(k_i -1)}
-\end{equation}
-
-For an entire network, this clustering coefficient is the average of all the individual clustering scores for all users:
-\begin{equation}
-    C_{network}=\frac{1}{|N|}\sum_{i=1}^{|N|}C_i
-\end{equation}
-
-If a network is purely random, then the expected clustering coefficient would be:
-\begin{equation}
-    C_{rand} = \frac{\langle k \rangle}{n}
-\end{equation}
-
-Given Arapacio's twitter data set, if the null hypothesis, $H_0$, is that Twitter is a random network then the value for the random cluster should be the actual result. Instead, the actual result is much greater. This set has $1963 \times 10^6$ connections and $51.22 \times 10^6$ nodes, for a $\langle \psi \rangle = 38.3$:
-\begin{equation}
-    \begin{split}
-    C_{rand} = \frac{38.3}{51.22 \times 10^6} = 7.48 \times 10^{-7} \\
-    C_{actual} =\left( \frac{1}{51.22 \times 10^6}\sum_{i=1}^{51.22 \times 10^6}C_i \right)= 0.096
-    \end{split}
-\end{equation}
-Since Twitter is a directional network and there may be reciprocal relationships, such that for user \textit{i}, $|\Psi_i| > k_i$, $7.48 \times 10^{-7}$ should be considered the lowest possible value. Even if one were to assume all relationships were reciprocal ($\forall \psi_{jk}\  \exists \ \psi_{kj}$) and cut that value in half -- which would likely overstate the number of reciprocal relationships -- the resultant value of $3.74 \times 10^{-7}$ is still 250,000 times smaller than the actual calculated result. Therefore, the null hypothesis $H_0$ should be rejected. The relationships of following and followed are not random; they are clustered and intentional.
-
-This is further born out with the calculated $\gamma$ values. In a random network that follows the power law equation (equation \ref{powerlaw}), $\gamma = 3$ \cite{barabasi2000scale,pastor2001epidemic}, yet here $\gamma_{in} = 2.2$ and $\gamma_{out} = 1.9$. The lower $\gamma_{out}$ value can be directly traced to the evidence that individuals are likely to follow 10 times as many other users as they are followed by, which leads to hub nodes becoming more connected than would be expected in a purely random scale-free network. This also correlates to the insights from equation \ref{likelihood equation}, namely that new nodes connect with the most popular current nodes, and the ``rich get richer".
-
-Even though $\gamma_{out}$ is below the threshold of 2 initially proposed by Barab{\'a}si's and Albert's work, there are other formulations of the power-law distribution \cite{ichinose2017invasion,albert1999diameter,mislove2007measurement,zhang2015exactly,pastor2002epidemic}, which only require $\gamma > 1$. 
-
 \subsection{Proposed Adjustments to P($\cdot$) and L($\cdot$)}
 As of yet, no literature has attempted to combine the Barab{\'a}si-Albert preferential equation, equation \ref{preferentialequation}, with the partisanship analysis performed in \ref{Partisanship Section}.
 
@@ -683,7 +627,7 @@ This hypothesis breaks down into two sub-hypotheses: \\
 \textbf{$H_2$}: There is a statistically relevant relationship between the members of the set of followers and the partisanship of the user.
 
  \subsubsection{$H_1: k \propto |0.5 - \rho|$}
-  \label{H_1: k propto |0.5 - rho|}
+  \label{$H_1: k \propto |0.5 - \rho|$}
  To test $H_1$ the Twitter follower count of each representative in the 116th congress was attached to their voting records by accessing the Twitter API using the \textit{Tweepy} library. For representatives with multiple accounts, the account with the higher number of followers was selected and representatives without a Twitter account were removed from the data set. 
 
 A $\chi^2$ test was then performed on the Republican representatives, as the kurtosis of partisanship for the Democratic members was almost four times that of the Republican members -- 97 of the 236 Democratic Representatives tracked were within two votes of each other during the entire session, so there would be no statistically relevant relationship between voting pattern and followers. However, for Republicans ($n = 199$), the $p$-value for this test was $p=0.0005$. Therefore we can say that -- for Republicans in the 116th congress at least -- the null hypothesis should be rejected, and we should conclude that there is a relationship between twitter followers and voting patterns. This confirms that 0.5 is an appropriate value in equation \ref{Pdotpartisan}.
@@ -775,119 +719,6 @@ One of the helpful parts of this particular dilemma is that a great deal of info
 
 If a user is in this set of white listed users, then they would be removed from $\vec{A}$ for all users, thus preventing from being considered a $u^*$.
 
-\subsection{What is Being Shared?}
-\label{sec: what is being shared}
-Currently, Twitter, Facebook, and other social media companies label topics as \textit{trending} (fig. \ref{img:Trending Topics}), which is based almost exclusively on kurtosis over a very small window of time \cite{dewey2015freddie,lotan2015freddie}. 
-
-\begin{figure}[htp]
-    \centering
-    \includegraphics[width=6cm]{Twitter Trending.png}
-    \caption{Trending Topics on Twitter, Jan 30 2020}
-    \label{img:Trending Topics}
-\end{figure}
-
-When the elapsed time from a post's creation to the moment of inspection, $j$, is sufficiently small, it's possible to draw incorrect conclusions about the actual velocity of the content. Trending, per Lotan, operates more akin to jerk in physics and is connected to the the number of retweets at the moment: 
-\[
-    \frac{\partial^3 r}{\partial j^3}
-\]
-
-There are two flaws here. First, using $r$ favors topics that may or may not quickly expire on their own while ignoring slowly growing topics. In the Washington Post article cited earlier, \#FreddieGray was never considered trending on Twitter even though the story was featured prominently on CNN, ABC, the New York Times, etc. and more than 150,000 people tweeted on the topic on April 25, 2015 (fig. \ref{img:Trendinalia 2015})
-\begin{figure}[htp]
-    \centering
-    \includegraphics[width=11cm]{Trendinalia Apr, 2015.png}
-    \caption{Trending Topics on Twitter via Trendinalia, Apr 2015}
-    \label{img:Trendinalia 2015}
-\end{figure}
-. 
-
-As Lotan, a data scientist for Buzzfeed, pointed out:
-\begin{displayquote}
-1. The longer a term stays in the trending topic list, the higher velocity [of tweets] required to keep it there. \\
-2. It is much easier for a term never seen before to become a Twitter trend, and finally \\
-3. It is extremely important to understand what else is happening in the region or network (if Kim Kardashian’s show is airing, you can forget about trending!). \cite{lotan2015freddie}
-\end{displayquote}
-
-Sociologist Zeynep Tufekci argues in multiple media that this becomes de-facto censorship \cite{tufekci2017twitter,tufecki2018democracy,tufekci2017we,tufekci2014online}. She provides numerous examples, such as Facebook's 2014 trending window which provided high visibility to topics such as the ``Ice Bucket Challenge", but completely left off the protests in Ferguson, MO after the shooting of Michael Brown. This, she contends, creates effective censorship: by denying visibility to a particular topic while elevating another, social media is making (whether intentional or not) editorial decisions. 
-
-In defense of utilizing $\frac{\partial^3 r}{\partial j^3}$ to determine whether or not a topic is trending, a high value here shows very high engagement at a particular point in time. There is nothing inherently wrong or immoral about connecting disparate groups who are all watching and commenting on a TV show at the same time. At the same time, as both Tufecki and Lotan point out, it's easy for important topics to get drowned out by noise. Certainly, there is room for improvement.
-
-\subsubsection{Current Literature Alternatives} 
-Because social media posts are filled with spelling errors, typos, abbreviations, lexical variations, etc., it is incredibly difficult to gather a precise understanding of the post in a reasonable amount of time \cite{vandam2019learning,laniado2010making,schubert2014signitrend}. Dashtipour et al. analyze how reliant text analysis is on a robust lexicon, which will always lag behind common usage of language, and some languages have more thorough lexicons than others \cite{dashtipour2016multilingual}.
-
-VanDam, however, proposes a neural network that runs on the set of each unique user's tweets (rather than a global dictionary) to detect if a post is ``out of place", which can point towards a compromised account, or if a hashtag has been ``hijacked" and users are sharing unrelated or negative content with the hastag attached  \cite{vandam2019learning, vandam2016detecting}. One example of this was McDonalds using \#McDStories where users used the hashtag as an opportunity to vent about unpleasant experiences with McDonalds \cite{jain2015hashjacker}. On the other hand, both Gilkerson & Berg and Sedberg & Bennett note that hashtag hijacking can be a positive way for activists to stimulate necessary dialogue \cite{gilkerson2018social,bennett2012logic}. Finally, some examples of hashtag hijacking are unintentional blunders, such as when a pizza company tried to encourage people to stay in and eat pizza using the hashtag \#whyistayed, missing that that hashtag had been used to bring attention to victims of domestic abuse \cite{vandam2019learning}. While this solution is useful, it only detect outliers against a pattern. In examples where the hashtag is primarily being used as a beacon of disinformation, such as \#stopthesteal and \#sharpiegate were used during the 2020 election to signal election fraud \cite{perez2020facebook}, this solution would be unhelpful.
-
-Another way to determine topic importance is to use top-k modeling \cite{babcock2003distributed}, but this solution measures \textit{volume} and not \textit{importance}, which is not a relevant metric for this thesis. 
-
-\subsubsection{Word Pair Hashing}
-This approach to content analysis borrows heavily from the insights of Schubert, Weiler, and Kriegel, who also observed that current solutions, such as TF-IDF or First Story Detection (a model to detect the first reporting of an incident \cite{petrovic2010streaming,yang1998study}), require a great deal of memory. They detected that this scaling issue gets even worse when looking at word pairs -- an alternative solution, \textit{enBlogue}, retains $2p$ historical values for any word pair, with $p$ being the number of recent occurrences of the pair \cite{alvanaki2012see} -- which leads to retaining data for at least 700 million word pairs at any given point in time \cite{schubert2014signitrend}. Given all of the unintentional and intentional issues with social media posting spelling and grammar, that number has the potential to balloon significantly. 
-
-Instead, Schubert, Weiler, and Kriegel propose a word pair hashing system with a half-life. This half-life inclusion allows for word pairs to be removed from the set as they cease to be relevant, thus freeing up memory, but also allows for topics that grow at a slower rate not to get lost in the shuffle. Furthermore, by hashing the words, the system has no need to store any lexicographic information -- it also resolves the issues presented by Dashtipour et al.
-
-They propose a model based off of the Exponential Weighted Moving Average (EWMA) and variance (EWMVar). By using moving average and moving average variance, this prevents topics that had a very high amount of discussion a long time ago from retaining any supremacy. 
-
-They propose that $x$ is trending if $x$ is greater than an alerting threshold as defined by:
-\begin{equation}
-    \label{trending}
-    x >EWMA + s \cdot EWMVar =: t
-\end{equation}
- 
-where $s$ is the significance level. 
-
-Let $\alpha$ be the learning rate here, such that:
-\[
-\alpha_{half-life} = 1 - \exp\big(\log \big(\frac{1}{2}\big)/t_{1/2}\big)
-\]
-with $t_{1/2}$ being the half-life time that is manually decided by the appropriate subject matter expert.
-This can be combined with the equations by Finch \cite{finch2009incremental}:
-\begin{equation}
-    \label{Finch Equations}
-    \begin{split}
-        \Delta  \xleftarrow[]{}  x - EWMA \\
-        EWMA  \xleftarrow[]{}   EWMA + \alpha \cdot \Delta \\
-        EWMVar  \xleftarrow[]{} (1-\alpha) \cdot (EWMVar + \alpha \cdot \Delta^2)
-    \end{split}
-\end{equation}
-
-From here, Schubert, Weiler, and Kriegel generate $2^\ell$ buckets, each storing an EWMA and EWMVar value, and $k$ hash functions, so that each word is mapped to a maximum of $k$ buckets. The process then compares the popularity of words in the epoch vs the popularity of words already stored in the buckets, making sure that less popular word pairs do not overwrite more popular word pairs. They observe that $\ell$ needs to be large enough to ensure that the buckets aren't filled with frequent keywords. 
-
-They tested their solution on posts about Edward Snowden's flight from Hong Kong to Moscow. At that time, posts about Snowden were already quite prevalent, so the words \textit{Edward} and \textit{Snowden} had started to drop off from their ``trending" metric due to a lack of novelty, but various combinations of the word set \{\textit{edward, snowden, hong, kong, moscow}\} exhibited significant peak. Similarly, when looking at the same Boston Marathon bombing data set as Starbird et al. \cite{starbird2014rumors}, they were able to isolate when the social media conversations shifted from being generally about the Boston Marathon to being about an explosion at the Boston Marathon (the term \textit{explosion}, interestingly, had been used frequently in the days before hand as there had been a Boeing 787 Dreamliner battery explosion).
-
-\subsubsection{Process}
-The daily process and analysis would be in two parts: indexing and analyzing.
-
-For indexing, every document will have each word pair indexed in the hash table, such that it's moving average and moving variances are recorded and updated as more frequencies of the word pairs appear. At each point, as a final step of the indexing process, the frequency of that word is measured against a maximum $z$-score ($\beta$ here is a constant to ensure that the denominator is not zero):
-\begin{equation}
-    z = \frac{x-\max\{\mu, \beta\}}{\sigma + \beta}
-\end{equation}
-If that $z > t$, the threshold for alerting, then it is immediately routed to an early alert system.
-
-For end-of-day analyzing, both the EWMA and EWMVar tables are updated such that words with lower popularity are overwritten with new pairs with higher popularity. Terms are also analyzed for their $z$-score as calculated above here, which provides a list of terms that trended that day. Those terms are both worthy of further investigation and are potentially a warning for what will trend tomorrow.
-
-\subsubsection{Moving Averages With Small Windows}
-One of the difficulties that they observed was that this model struggles during an epoch, as the number of posts during an epoch is not known until the epoch is complete, which can over-inflate the importance of a particular word pair. However, this is a task that machine learning is uniquely suited for, as a very simple algorithm can predict the number of tweets that will be generated at a certain time in a certain country in a certain time zone. Poisson regression is likely appropriate here.
-
-Interestingly, while Mueller's team did not use machine learning, they did observe that many of the fake posts that came from the IRA were posted at unusual times for the locations the accounts claimed to be in... but were in standard working hours in Moscow \cite{mueller2020internet}.
-
-When compared with an average number of posts for the country and time zone these fake accounts claimed to live in, it would have been immediately clear that they were not only ``trending" but would likely need to be flagged for investigation.
-
-\subsubsection{Summary}
-\label{what is being shared summary}
-While there may be some value to including a set of topics that are white-listed (much like white-listing users as discussed in \ref{sec: white listing}), this solution uses such a small amount of memory that this would be overkill and could potentially lead to content getting missed. When analyzing Twitter data utilizing a streaming API over 114 days, they captured 279 million tweets -- approximately 1\% of all tweets during that period -- which turned into 6.7GB of processed data. Processing this twitter data took, on average, 46 seconds per day; the actual analysis took, on average, 25 seconds per day; the data storage required, on average, was only 160MB per day. In fact, they ran this entire process off of a 700Mhz computer with 512MB of RAM, at a processing speed of 104.1 seconds per day \cite{schubert2014signitrend}. Clearly, this process can be applied to the full Twitter ``firehose" without issue and without need for further adjustments.
-
-Furthermore, this solution solves the problem posed at the beginning of this section where important topics with small kurtosis were drowned out and went unnoticed. Since the key words are held in tables and moving averages are used, topics with high trending but low sustainability (such as a sports event or TV event) will enter and leave the tables quickly, while topics that show low but consistent growth (such as \#FreddieGray) will remain present. 
-
-Therefore, let $I$ be the set of trending topics as determined by the tables described previously with $i$ being a unique pair, $z$ be the $z$-score result generated from the exponential moving average/variance tables, $s$ be the significance level, and $d$ be the number of days (not necessarily consecutive) that this topic has been in the tables .
-
-This provides $\mu_2$ which can give us the importance of the content being discussed:
-\begin{equation}
-\label{mu_2 equation}
-    \mu_2 = \begin{cases}
-    z\cdot d  & \text{if}\ i \in I\ \text{and}\  z > s \\
-    0\  & \text{if}\ i \notin I \ \text{or} \ z \leq s
-    \end{cases}
-\end{equation}
-
-As a final note here, it is worth mentioning that none of the previously discussed neural networks accounted for the fact that they would need to be perpetually trained to be effective. As seen here, moving averages are important: topics that were important yesterday are not necessarily important today. Patterns of fake news yesterday that have been identified can be easily changed to create fake news today. This is yet another flaw to the proposed self-sustaining neural network solutions.
 
 \subsection{How Fast is it Spreading?}
 \subsubsection{Standard Rate of Transmission: $\lambda$ Value}
@@ -974,9 +805,6 @@ Given the sigmoid nature, this allows for users who are not diametrically oppose
 
 Combining \ref{critical value equation} and \ref{psi immunized} generates $\tilde{\lambda_c}$, which now utilizes $\tilde{\psi}$.
 
-\subsubsection{Metric and Summary}
-First, the metric here will be the ratio of the rate of transmission vs. the critical rate of transmission: $\frac{\lambda}{\tilde{\lambda_c}}$, such that if this metric is $\geq 1$, then the epidemic is out of control and if $< 1$ then it will die out on its own. Note that this equation for $\mu_3$ is very similar to the probabilistic version of determining critical spread that uses $\Theta$ and $\Theta_c$ \cite{newman2005threshold,ferrari2006network,meyers2005network,callaway2000network,newman2002random}.
-
 By combining these terms:
 \begin{equation}
 \label{mu_3 equation}
@@ -986,648 +814,7 @@ By combining these terms:
 By using $\tilde{\psi}$ instead of a general network wide $\psi$, $\mu_3$ allows for viral spread to be compared in a more apples-to-apples fashion: all immune and irrelevant nodes are factored out. 
 
 
-%%% lambda over lambda c.... psi^2 cancel out????
-\subsection{How Far Along is it?}
-For this section, the primary question is how to get $\mu_3 < 1$. There are two ways to achieve this. When $j$ is sufficiently large, it can outweigh $\frac{\langle \tilde{\psi^2} \rangle}{\langle \tilde{\psi} \rangle}$. The other solution is to ``vaccinate" or remove nodes from the network, which will reduce the $\langle \tilde{\psi} \rangle$ value in the numerator. Clearly, by removing as many $u^*$ from the network, the $\max |\psi|$ values are removed, which will drop the value in question. However, the purpose of this thesis is to target the nodes for vaccination/fact checking. 
 
-The ideal relationship, then, will marry both $\psi$ and $j$ values. When $j$ is sufficiently small, the misinformation will unquestionably have $\mu_3 > 1$ as only a few retweets in rapid succession right after a tweet is posted will make a very large $\tilde{\lambda}$ value.
-
-\subsubsection{Fraction of Users to Target}
-In immunization work on network theory \citep{pastor2002immunization}, the fraction of individuals that should be vaccinated in a targeted scenario, $v$, is equal to 
-\begin{equation}
-    v = \sum_{k > k_t}P(k)
-\end{equation}
-where $k_t$ is a minimum threshold of connections and any user with connections above that threshold will be vaccinated. 
-
-Combined with \ref{Pdotpartisan}:
-\begin{equation}
-\label{probability of vaccinated}
-p(v) = \frac{\sum_{k>k_t(v)}kP(k)(1-\langle \rho_{\Delta_{k>k_t}})\rangle}{\sum_{k}kP(k)(1-\rho_{\Delta})}
-\end{equation}
-
-If those people are considered removed, then the new distribution would be \citep{cohen2001breakdown}:
-\begin{equation}
-    P_v(k) = \sum_{1\geq k}^{k_t}P(q)\binom{q}{k}(1-p)^kp^{q-k}
-\end{equation}
-This leads to new $\langle k \rangle_v$ and $\langle k^2 \rangle_v$ values (after cut-off introduction and link removals)\citep{pastor2002immunization}: 
-\begin{align*}
-        \langle k \rangle_v &= \langle k \rangle_t(1-p)\\
-         \langle k^2 \rangle_v &= \langle k^2 \rangle_t(1-p)^2+\langle k \rangle_t\ p(1-p)
-\end{align*}
-
-At this point, $k$ can be replaced with $\tilde{\psi}$ (as before, inbound connections with ``immune" nodes removed) to make it compatible with equation \ref{psi immunized} to determine $v_c$, the critical fraction of users who need to be vaccinated:
-\begin{equation}
-\label{v_c equation}
- \frac{\langle \tilde{\psi}^2 \rangle_{v_c}}{\langle \tilde{\psi} \rangle_{v_c}} \equiv \frac{\langle \tilde{\psi}^2 \rangle_{t}}{\langle \tilde{\psi} \rangle_{t}}(1-p(v_c))+p(v_c)=\lambda^{-1}
-\end{equation}
-
-To determine a more actionable $v_c$, $v$ can be rewritten as an integral starting at 1 as, even though users can have no followers, users with $|\psi| = 0$ are not relevant to our analysis as they have no possibility of infecting others (furthermore, they are likely to be bots or spam, which should be removed from the set per the section on \textit{synthetic a priori} analysis):
-\begin{equation}
-\begin{split}
-    v & = 1 - \int_1^{\tilde{\psi}_{t}} P(\tilde{\psi})d\tilde{\psi} \\
-   v & = 1 - \int_1^{\tilde{\psi}_{t}} \tilde{\psi}^{-\gamma}d\tilde{\psi} \\
-   v & = 1 - \left(\frac{\tilde{\psi}_{t}^{-\gamma +1}}{-\gamma+1}-\frac{1^{-\gamma +1}}{-\gamma+1}\right) \\
-   v & = \frac{-\gamma+1 - \tilde{\psi}_{t}^{-\gamma +1} -  1^{-\gamma +1}}{-\gamma+1} \\
-   v(-\gamma + 1) & = -\gamma - \tilde{\psi}_{t}^{-\gamma +1}\\
-   -\big(v(-\gamma + 1) + \gamma\big) & = \tilde{\psi}_{t}^{-\gamma+1}\\\
-   \big(-v(-\gamma + 1) - \gamma\big)^{\frac{1}{-\gamma + 1}} & = \tilde{\psi}_t
-\end{split}
-\end{equation}
-
-Using Aparicio's $\gamma_{in} = 2.2$ for Twitter \cite{aparicio2015model} $v_c$ can be graphed as in Fig. \ref{fig:Fraction of users,v, vs. tildepsi}.
-\begin{figure}[h]
- \centering
-  \includegraphics[width=10cm]{Fraction of users included.png}
-  \caption{Fraction of users, $v$ vs. $\psi$}\label{fig:Fraction of users,v, vs. tildepsi}
- \end{figure}
-
-$v \simeq \tilde{\psi}_t^{-2}$ as $\tilde{\psi} \rightarrow \infty$ with a $p$-value $<< 0.01$. This matches the generalized equation for BA models: $v = m^2k_t^{-2}$, where $m$ is the minimum number of connections any node in the model has (here $m = 1$) \citep{pastor2001epidemic}. This can then be manipulated to: $\tilde{\psi}_t \simeq v^{-1/2}$. 
-
-This means that the probability of a random individual connected to a vaccinated node would be $p(v) = \sqrt{v}$. From there, $\langle \tilde{\psi} \rangle_t \simeq 2$, and $\langle \tilde{\psi}^2 \rangle_t \simeq 2 \ln(v^{-1/2})$, with $\tilde{\psi}_t = v^{-1/2} \rightarrow \infty$. This can be combined with equation \ref{v_c equation} to determine $v_c$, the critical fraction that needs to be vaccinated:
-\begin{equation}
-\label{reduced v_c} 
-    v_c \simeq \exp{(-2/\lambda)}
-\end{equation}
-
-This equation has  been applied to examples such as viruses in the internet \citep{kephart1993computers}, STI transmission \citep{anderson1992infectious,lloyd2001viruses}, and other epidemics \citep{diekmann2000mathematical}. 
-
-By this point, it should come as no surprise that ``vaccinated" and ``fact-checked" are interchangeable for the context of this thesis. Equation \ref{reduced v_c} can be easily adapted for a variety of scenarios. It can be used with an average $\langle \lambda \rangle$ for all tweets to determine the threshold of tweets/users to fact-check; in a situation like conspiracies about forest fires being spread by Antifa \citep{robinson2020oregon}, $\lambda_i$ can be calculated for that particular topic and $v_c$ can be used to calculate the number of tweets that must be fact checked. Much like it's unnecessary to vaccinate every node during an epidemic in order for the disease to die out, it is similarly unnecessary to fact check all possible tweets in order for a thread of misinformation to die out. 
-
-Indeed, this meets the requirement posed at the beginning of this subsection: a relationship between $v_c$ and $j$ is created, since $\lambda = \frac{a}{j}$.
-
-
-\subsubsection{$v_c$ Overlap}
-On this note, there is likely to be heavy overlap in the individuals who would fall into $v_c$. As Imran Ahmed noted in an NPR interview in 2021, 29 million people follow only 10 individuals who spread anti-vaccine content \cite{npr2021teachers,ahmed2020antivaxx}. In October 2020, The National Vaccine Information Center (NVIC), the leader in anti-vaccine content, held a conference that featured many prominent anti-vaccine speakers, such as Robert F. Kennedy Jr. (1.3 million followers) and Joseph Mercola (3.6 million followers) -- it should be noted that Kennedy Jr. has since been removed from Instagram for spreading anti-vaccine conspiracy theories \cite{robinson2021instagram}. It should also be noted that Mercola -- and several other prominent alternative medicine proponents -- have made millions selling alternative medicines while attacking traditional medicine \cite{satija2019major}. This is all in line with the discussion earlier about $u^*$ and partisan overlap: users who subscribe to the beliefs of $u^*$ are likely to subscribe to the beliefs of the other similar users with high $|\psi|$ values. There is likely to be high overlap in the set of users who follow Kennedy Jr., Mercola, and the other speakers at this particular conference. If social media had removed all of the key speakers, it would have -- at least temporarily -- severely damaged the anti-vaccine misinformation network. 
-
-
-\subsubsection{Summary and Metric}
-
-Therefore, let:
-\begin{equation}
-\label{mu_4 and mu_5}
-\begin{split}
-    \mu_4 = v_{c,t} & = \exp(-2/\lambda_{t}) \\
-    \mu_5 = v_{c,i} & = \exp(-2/\lambda_{i}) \\
-    \mu_6 = v_{c,N} & = \exp(-2/\langle \lambda \rangle)
-\end{split}
-\end{equation}
-
-$\mu_4$ should be interpreted primarily as a sense of urgency at the individual tweet level, while $\mu_5$ is at the topic level. While they are not the only metric connected to the $a \ln j$ equation, they \textit{do} contain $\lambda$ without a knowledge of $\langle \lambda \rangle$, the $|\psi|$ values of the members, or any analysis of the content. It is, effectively, self-contained. This is invaluable in meeting the requirement proposed at the beginning of this subsection: the ability to create a more apples-to-apples comparison between tweets and topics. 
-
-Finally, $\mu_6$ uses $\langle \lambda \rangle$ to provide an overall health metric of the network. This can be treated as a key performance indicator (KPI) for the fact-checking team: if this process is being successfully utilized $\mu_6$ should remain static or decrease; if $\mu_6$ increases or approaches 1, then the network is becoming ungovernable. Either more checkers must be hired or more draconian rules must be implemented.
-
-\subsection{Algorithm}
-Combining all of these metrics and steps together provide the following algorithm/pseudo-code. Let ``Every time step" be a partitioned unit, such that one fact checker can check one tweet in that step. If there are seven fact-checkers working simultaneously, then seven tweets can be checked ine one time step.
-
-Let $F$ be a subset of $T$, such that $F$ is the set of tweets that will be fact checked at this point in time.
-
-Let $V$ be a subset of $T$, such that $V$ are the tweets that have been fact-checked already and have been removed if false - in other words, vaccinated nodes.
-
-\begin{algorithm}
-\label{Ranking System Algorithm}
-	\caption{Ranking System}
-	\begin{algorithmic}[1]
-		\For {Every time step}
-		\State Remove all members of $V$ from $F$
-		\If {$u$ in the list of white-listed users}
-		\State Add $t$ to set $V$
-		\State Remove $t$ from set $F$
-		\EndIf
-		\State Perform natural log regression for the cumulative sum of retweets of each tweet
-		\State Remove all $t$ from $F$ where the coefficient for $a\ln x$ is NULL
-		\State Calculate $\mu_1$ for each available $t \in F$
-		(Eq.: \ref{mu_1 equation})
-		\State Calculate word pair $EWMA$ and $EWMVar$ for all tweets in $F$ (Eq.: \ref{Finch Equations})
-		\If {any word pair in $t$ is in $EWMA$ and $EWMVar$}
-		\State Add $t$ to set $I$ for that word pair
-		\EndIf
-		\State Calculate $\mu_2$ for each available $t \in F$ (Eq.: \ref{mu_2 equation})
-		\State Calculate $\tilde{\psi}$ for each user (Eq.: \ref{psi immunized})
-		\State Calculate $\mu_3$ (Eq.: \ref{mu_3 equation})
-		\State Calculate $\mu_4$ for $F$ (Eq.: \ref{mu_4 and mu_5})
-		\If {$t \in I$}
-		\State Calculate $\mu_5$ for $I$ (Eq.: \ref{mu_4 and mu_5})
-		\EndIf
-		\State Calculate unique value $\zeta$ for each $t$ (Eq.: \ref{zeta function})
-		\State Rank the tweets by $\zeta$ value (Eq.: \ref{ranking equation})
-		\While{In current time step}
-		\For{All tweets in $F$}
-		\State Fact check $t^*$ 
-		\State Add $t^*$ to $V$
-		\State Remove $t^*$ from $F$
-		\State $t^* \xleftarrow[]{} t^{*-1}$
-		\EndFor
-		\EndWhile
-		\EndFor
-	\end{algorithmic} 
-\end{algorithm} 
-\newpage
-\subsection{Summary: The Circuit Breaker}
-A reasonable person may argue that $t_2$ from the ordered set may actually be more important to fact check than $t_1$, as there are multiple strains of misinformation covering multiple topics every day.  For example, in late 2020, there was a wide spread in misinformation surrounding the COVID-19 vaccine \cite{mills2020covid,bagherpour2020covid}. Concurrently, false claims of fraud in the 2020 U.S. election \cite{dean2020facebook} spread before being replaced with plans for a violent insurrection on January 6th at the U.S. Capitol \cite{fandos2021trump,Levenson2021capitol}. Each of these topics is dangerous; each stands to have a high cost in human life and suffering. Reasonable people could make cogent arguments about one thread of misinformation being more or less dangerous than the other. However, fact checkers can only check so much and only check so quickly, so any ranking will leave room for criticism.
-
-Because of that, this thesis proposes that the five metrics (and their corresponding weights) be used not only to rank the content that needs to be fact checked, but also as a circuit breaker. Content where $\zeta$ is greater than a particular threshold, $\zeta_t$ can be quarantined pending fact-checking. This is not a radical proposal: circuit-breakers are used in global financial markets during times of extreme volatility \cite{wang2019microstructure,schwert1990stock} and can promote market-wide stability by ``preventing the spread of poor market quality" \cite{brugler2014single,schneider2020stock}. Indeed, this proposal has already generated discussion by experts \cite{goodman2020digital,simpson2020fighting} and Facebook has expressed interest in adding ``speed bumps" \cite{bond2020circuit}.
-
-Furthermore, this proposed solution resolves all of the issues in section \ref{sec: currently implemented solutions}: it is scaleable, it is not a black-box solution, it does not limit freedom of speech unnecessarily, yet it also will actively remove dangerous content from the platforms according to how dangerous it is.
-
-\section{Implementation and Experimentation}
-In order to test this proposed ranking solution, two data sets are used. The first set, \textit{Twitter15}, is the set that has been used in many other papers on this topic. It is therefore important to include for the sake of comparability.
-
-The second set is the PHEME dataset \cite{kochkina2018pheme}, which was generated by PHEME.eu as a rumor detection research project funded by the European commission and has been used in other studies previously cited \cite{zubiaga2016analysing}. 
-
-
-\subsection{Twitter15}
- The publicly available \textit{Twitter15} set, generated as part of the work of Ma et al (2016), has been used in multiple articles and theses \citep{liu2018early,ma2017detect,ma2016detecting,khoo2020interpretable,liu2019early,huang2019deep}. This thesis will look at Liu's adjusted \textit{Twitter18} set, which makes a few cleaning adjustments: namely tweets labeled ``unverified" have been removed, tweets that are no longer accessible have been removed from the set, and 353 true and 327 fake stories have been added to supplement the removed tweets \citep{liu2019early}. 
- 
- However, the \textit{Twitter15} (and by extension the adjusted \textit{Twitter18}) set has four flaws that are not discussed in surrounding literature. 
- 
-\subsubsection{Caveats}
-First, it sets all tweets to $\tau \in \{0,1\}$, which is not a realistic depiction of the set of tweets being evaluated, save those that are \textit{a priori analytic}, \textit{a priori synthetic}, or \textit{a posteriori analytic} (discussed in \ref{truthvalue appendix}). Even if all the tweets in the set fall into those three groups -- in which case the binary $\tau$ is reasonable -- the sample set would then not realistically depict the population of all tweets. Therefore, their true/false metrics will be referred to as $\tau'$, a binary operator illustrating if a fact-checker has flagged this tweet for removal.
-
-Second, those truth values $\tau'$ are highly problematic. A great deal of content is marked as ``non-verified rumor" or ``false" that is not actually untrue. For example, the most retweeted tweet in the first 24 hours in this set and has $\tau' = 0$ is this tweet from ESPN (fig. \ref{fig:ESPN Tweet, April 20, 2016}). Arguably, this counts as \textit{synthetic a posteriori} knowledge, but the content is not intentionally misleading or untrue. 
- \begin{figure}[h!]
-    \centering
-    \includegraphics[width=9cm]{espn Mcgregor tweet.png}
-    \caption{ESPN Tweet, April 20, 2016 \cite{espn2016tweet}}
-    \label{fig:ESPN Tweet, April 20, 2016}
-\end{figure}
-
-The same is true of the second most retweeted ``false" tweet in the set from the BBC (fig. \ref{fig:BBC Breaking Tweet, Jan 18, 2016}).
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=9cm]{BBC Eagles.png}
-    \caption{BBC Breaking Tweet, Jan 18, 2016 \cite{bbc2016tweet}}
-    \label{fig:BBC Breaking Tweet, Jan 18, 2016}
-\end{figure}
-That tweet is also marked as a ``rumor", even though it was not only true but from a reputable source. This data set does not differentiate between reputable (referred to as white-listed here in \ref{sec: white listing}) and disreputable sources, nor does it do any post-hoc validation. This makes the truth values for this set highly problematic, and makes all of the RNN analyses off of this set equally untrustworthy. This thesis therefore discards the results of \citep{liu2018early,ma2017detect,ma2016detecting,khoo2020interpretable,liu2019early,huang2019deep} in terms of classification of fake news and rejects the $\tau'$ values provided by this set.
-
-Third, it has a disproportionately high number of users who are verified ($v = 1$). Twitter's requirements for being a verified account require follower count in the top 0.1\% of active accounts in a particular region or proof of being an important person off of twitter, such as being a professional artist/athlete, elected official, etc. \citep{twitter2020verified}; however, 1.4\% of the users in this set are verified. If verified is used as a quick stand-in for hub node, there are 14 times more hub nodes than would be expected in a random sample of twitter users. At the same time, there may be more verified users than \textit{necessary} hub nodes. Since the total number of verified users is 3,061 with 212,360 unverified in the \textit{Twitter15} data set, yet the Arapacio set proposed only 1,000 hub nodes out of a set of 50,000,000, it is likely that users who are \textit{necessary} hubs and users who are verified are not equivalent sets. Hub nodes are likely a subset of verified users. 
-
-Fourth, it breaks down the retweet paths into ordered pairs $(u_i,j_i)$ with $u_i$ being the user retweeting and $j_i$ being a batched time interval which is correlated but not equal to the actual time the retweet was posted. In order to make their data set more RNN friendly, each retweet path was batched and partitioned, so that the length of entire time series for each retweet path is unique, but the distance between intervals is equal \citep{shu2017fake}. In other words, $j$ values are comparable across tweet paths, but are divorced from the actual time of posting.
-
-
-
- \subsubsection{User Data}
-However, on the whole, this set matches much of the previous analysis. When plotting the $Y$ and $Z$ on a $\log_{10}$ scale (fig. \ref{fig:Twitter15 Follower}, fig. \ref{fig:Twitter15 Following}), the distribution is relatively normal and the power law (equation \ref{powerlaw}) holds true here:  $\gamma_{in} = 2.6$ and $\gamma_{out} = 1.62$. This is quite close to the $\gamma_{in}$ and the $\gamma_{out}$  from the Arapacio data set, 2.2 and 1.9 respectively.
- 
- \begin{figure}[h]
-\minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{Twitter15 Follower Count.png}
-  \caption{Follower Count, $|Z|$, for Twitter15 Set}\label{fig:Twitter15 Follower}
-\endminipage\hfill
-\minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{Twitter15 FriendsCount.png}
-  \caption{Following Counts, $|Y|$, for Twitter15}\label{fig:Twitter15 Following}
-\endminipage\hfill
-\end{figure}
-
-
-
-If the verified binary, $v \in \{0,1\}$, is a stand-in for hub nodes in this set, even though it is overly generous as discussed earlier, then non-hub nodes are close to the Arapacio numbers but hub nodes have an even greater $\frac{|Y|}{|Z|}$ than in the Arapacio set:
-\[
-\begin{split}
-& \forall \ u_n, v_n  = 0:\langle |Y_n| \rangle \leq 400, \langle |Z_n| \rangle \leq 500, \langle  \frac{|Y_n|}{|Z_n|} \rangle \approx \frac{4}{5} \\ &\text{and} \\ & \forall \ u_n, v_n  = 1:\langle |Y_n| \rangle \leq 18,000, \langle |Z_n| \rangle \leq 1,300, \langle  \frac{|Y_n|}{|Z_n|} \rangle \approx 13.8
-\end{split}
-\]
-\textit{Twitter15}'s 13.8 is clearly much greater than Arapacio's $\frac{7}{10}$; this could be due to the time the sample was collected as the Arapacio set was collected in 2009 and total user count has expanded since then. The \textit{Twitter15} set contains, for example, former President Barack Obama, whose account has over 110M followers. 
-
-Regardless, this set meets the requirements of a scale free network, and therefore all previously analyzed equations, such as equations \ref{Ldotpartisan} and \ref{echo chamber by followers} will be applied here.
-
-\subsubsection{Retweets}
-The retweet data, as mentioned earlier, is a vector of ordered pairs of users and time intervals so that $ \exists \ \vec{r}:\{(u_1,z_1), \cdots, (u_n,z_n)\} \ \forall \ t \in T$.
-
-The total number unique users retweeting each tweet in the set is illustrated in fig. \ref{fig:Unique Retweeters}, and has the following properties as described in table \ref{Retweet Unique User Counts}:
-\begin{figure}[h]
- \centering
-  \includegraphics[width=12cm,height=5cm]{Retweet Box Plot.png}
-  \caption{Box Plot of Unique Users Retweeting Each Tweet in the Data Set}\label{fig:Unique Retweeters}
- \end{figure}
- 
-\begin{table}[h]
-\centering
-\begin{tabular}{ |p{3cm}|p{3cm}|  }
-\hline
-\multicolumn{2}{|c|}{Retweet Unique User Counts} \\
-\hline
-Lower Whisker & 2\\
-Lower Hinge & 146 \\
-Median & 267.5 \\
-Upper Hinge & 465.5 \\
-Upper Whisker & 945 \\
-\hline
-\end{tabular}
-\caption{Retweet Unique User Counts}
-\label{Retweet Unique User Counts}
-\end{table}
-
- 
-A graph of the running total of the number of unique users who have retweeted a particular tweet in figure \ref{fig:Users CumSum/Time} shows that the relationship is clearly logarithmic, which aligns with this thesis's previous analysis and proposals. The graph is set to a maximum $z = 24$ as one of the goals of this thesis is to rapidly identify tweets that need to be flagged for verification.
-\begin{figure}[h!]
- \centering
-  \includegraphics[width=12cm]{Linegraph cumsum users.png}
-  \caption{Line Graph of Cumulative Sum of Retweeters over Time}\label{fig:Users CumSum/Time}
- \end{figure}
-
-With simple regression to calculate the cumulative number of unique users retweeting a tweet to an $a\ln(j)$ equation with an intercept of zero (the intercept is manually forced to 0 as no tweet has $\geq 1$ retweet when time is 0), the number of the 680 tweets that fell into each statistical relevancy set is in the table \ref{Natural Log Fit}. The N/A values come from tweets that were insufficiently retweeted (1 or fewer retweets).   
-\begin{table}[h!]
-\centering
-\begin{tabular}{ |p{3cm}|p{3cm}|  }
-\hline
-\multicolumn{2}{|c|}{$p$ value for $a\ln(j)$} \\
-\hline
-$p < 0.05$  & 654\\
-$N/A$ & 18 \\
-$ p \geq 0.05$ & 8 \\
-\hline
-\end{tabular}
-\caption{$a\ln(j)$ fit}
-\label{Natural Log Fit}
-\end{table}
-
-For an average tweet, the cumulative number of users at can be described by the equation $f(j)=85.8\ln(j)$, which has a $p$-value $<< 0.05$. 
-
-It is also interesting to note the number of tweets with an $a > 85.8$ as seen in table \ref{a > 85.58}. Slightly less than 10\% of all tweets tracked showed a higher $a$ value than the average tweet.
-\begin{table}[h!]
-\centering
-\begin{tabular}{ |p{3cm}|p{3cm}|  }
-\hline
-\multicolumn{2}{|c|}{Number of retweet paths with $a$ value relative to $\langle a \rangle$} \\
-\hline
-$a > 85.8$  & 67\\
-$N/A$ & 18 \\
-$ a \leq 85.8$ & 595 \\
-\hline
-\end{tabular}
-\caption{Number of retweet paths with $a$ value relative to $\langle a \rangle$}
-\label{a > 85.58}
-\end{table}
-
-
-For this data set, let $\langle \rho_{\Delta} \rangle = 0.5$. Much of the content in this set is non-partisan in nature, such as the ESPN and BBC tweets shared earlier. This adjustment changes implies that $\langle \tilde{\psi} \rangle = \langle \psi \rangle$ for this set, as there is no partisan driven immunity (or susceptibility) in this set. This also allows for 
-$\left(\frac{1-\rho_{\Delta}}{1-\langle\rho_{\Delta}\rangle}\right)$ in equation \ref{Pdotpartisan} to cancel out. Both of these are appropriate -- it is unlikely that an individuals political beliefs will shape their beliefs on whether or not Connor McGregor won a fight on a particular day. 
-
-\subsubsection{Experimentation}
-\label{sec: Twitter15 Experimentation}
-Since this thesis proposes a ranking system, and this dataset is batch based, let it be proposed that a fact-checker can check 1 tweet per $j$ interval, which means that this checker can check 24 total tweets during the allotted time period.
-
-Let it also be set that at the point the fact checking occurs, that path is declared vaccinated - regardless of $\mu$ values, there is no need to check that thread again. It has either been removed if determined false or it has been white-listed if true.
-
-Since no weights have been determined yet for each metric, the metrics here have been minmax scaled such that each $\mu$ value is between 0 and 1: 
-\[
-\forall \ \mu \in \mathcal{M} \  \exists \ \mu' := \frac{\mu - \min(\mu)}{\max(\mu) - \min(\mu)} 
-\]
-This will allow each $\mu$ value to be equally valuable.
-
-The following reputable news organizations were marked as white-listed: The Wall Street Journal, CNN, CNN International, CNN Breaking, BBC, BBCWorld, BBC Breaking, New York Times, ESPN, The Economist, Reuters, The Washington Post, Time, ABC, The AP, NBC Breaking News, CBS News.
-
-The Onion, a satirical news site was also white-listed. Even though it posted tweets like fig. \ref{fig:The Onion Tweet, Jan 29, 2016}, which could be interpreted as ``fake news" if someone believed it at face value, they make no pretenses about being a real news organization, and should not be included in this study as the fall under the category of sarcasm and irony discussed in the section on hyperbole, sarcasm, and irony (See: \ref{hyperbole}). By this same token, Mashable, Rolling Stone, E! News, and MTV were also removed as they serve primarily for entertainment and not news purposes.
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=8cm]{Onion Tweet.png}
-    \caption{The Onion Tweet, Jan 29, 2016 \cite{onion2016tweet}}
-    \label{fig:The Onion Tweet, Jan 29, 2016}
-\end{figure}
-
-The Obama White House official White House account was removed from this set, as their tweets were non-controversial in nature. On the other hand, The Huffington Post and Fox News were both left in this set.
-
-Results for $\mu_1$:
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=8cm]{Histogram of mu_1 twitter15.png}
-    \caption{Histogram of $\mu_1$ values for first time period for \textit{Twitter18}}
-    \label{fig:Hist mu_1 Twitter18}
-\end{figure}
-The majority of the users here had relatively few followers (as illustrated in the user analysis earlier). 
-
-Results for $\mu_2$:
-These are the top 10 bigrams from the dataset and their corresponding counts. URLs were removed as well as words that were all non-alpha numeric. The \# was left in, as this is a relevant character for Twitter. This analysis was performed with NLTK tokenizer and counter:
-
-\begin{table}[h]
-    \centering
-    \begin{tabular}{|p{4cm}|p{2cm}|}
-    \hline
-         Paul, Walker & 42 \\
-         War, Memorial & 29 \\
-         Paul, Walkers & 24 \\
-         Soldier, Shot & 21 \\
-         Malaysia, Airlines & 16 \\
-         Died, Paul & 16 \\
-         Breaking, News & 14 \\
-         National, War & 14 \\
-         Darren, Wilson & 14 \\
-         Iphone, 6 & 13 \\
-    \hline
-    \end{tabular}
-    \caption{$\mu_2$ results}
-    \label{tab:mu_2 results}
-\end{table}
-
-While three of these bigrams surround the death of Paul Walker, they are each unique in terms of the bigram generated. The phrase ``Breaking News" should likely be removed from future iterations of this analysis, as it is not a topic per se, merely an attention grabber. In this context, this phrase can likely be added to the list of stop words for the future.
-
-Results for $\mu_3$ (Fig. \ref{fig:Hist mu_3 Twitter18}):
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=8cm]{histogram_mu_3_scaled.png}
-    \caption{Histogram of $\mu_3$ values for first time period for \textit{Twitter18}}
-    \label{fig:Hist mu_3 Twitter18}
-\end{figure}
-
-This histogram is in line with all of the other analysis on epidemic spread previously discussed: every network is made up of many small nodes with a few large nodes. The average minmax-ed $\mu_3$ value was 0.04 and the median was 0.02. Most tweets are never retweeted and most have very limited engagement. Those tweets that are already fizzling out on their own do not need to be fact-checked, and this algorithm successfully identifies which have the highest current spread. 
-
-Results for $\mu_4$ and $\mu_5$ (Fig. \ref{fig:Hist mu_4 Twitter18}):
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=8cm]{histogram of mu_4.png}
-    \caption{Histogram of $\mu_4$ values for first time period for \textit{Twitter18}}
-    \label{fig:Hist mu_4 Twitter18}
-\end{figure}
-As can be expected, the $\mu_4$ values skewed higher for $j=1$, since it is such a small time period, it takes very few retweets for $\lambda$ to appear unreasonably large.  
-
-Results for $\mu_6$:
-Because these tweets all ``started" at the same time, $\mu_6$ was less informative than the other three. However, the $v_c$ value at $j=1$ was 0.89, which implies that around 89\% of all tweets need to be checked. 89\% is far too large of a number to consistently check as there are more than 500 million tweets per day \cite{raffi2013tweets}, which would require 445 million fact checks per day. That is unsustainable. However, it's important to recognize that 89\% is for \textbf{total} vaccination of the \textit{entire} network. That goal is neither desirable nor reachable. There is no need to slow the spread of positive or helpful content (e.g. coordination efforts during the Manchester bombing \cite{mirbabaie2020breaking, eriksson2016facebook}), only highly partisan and dangerous content. It is also important to recognize that, since $v_c \propto \langle \lambda \rangle$, as the tweets with a higher $\lambda$ value are removed, the average $\lambda$ value will decrease, which in turn provides a lower $v_c$ value.
-
-In a real life scenario, a vaccinated high $\lambda$ post may be replaced with another high $\lambda$ post. At the same time, so long as those high $\lambda$ posts are fact-checked quickly, the $v_c$ value will continue to remain as low as possible. 
-
-In this experiment, though, $\mu_6$ saw steady decrease in each time period (Fig. \ref{fig:mu6 Twitter18}), which implies that this algorithm did successfully remove the ``super spreaders" first. In fact, when $j=1$, $\langle v_c \rangle = 0.894$, but by $j=24$, $\langle v_c \rangle = 0.091$. That is a substantial decrease.
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=8cm]{mu6 graph.png}
-    \caption{Plot of $\mu_6$ values for each time period in \textit{Twitter18}}
-    \label{fig:mu6 Twitter18}
-\end{figure}
- 
-
-Results of the algorithm:
-%\begin{longtable}[h]
-%\centering
-\begin{longtable}{ |p{0.5cm}|p{4.1cm}|p{12cm}|  }
-\hline
-\multicolumn{3}{|c|}{Algorithm Results} \\
-\hline
-$j$ & User & Tweet Text \\
-\hline
-1 & @deray & and @abc, please tweet saying that you did not pay or compensate darren wilson for the interview in any way. we're waiting. \#ferguson\\
-\hline
-2 & @realDonaldTrump & the fight against isis starts at our border. ‘at least’ 10 isis have been caught crossing the mexico border. build a wall!\\
-\hline
-3 & @realDonaldTrump & the first general killed in a combat zone since vietnam, it is a travesty that obama did not attend major general harold greene’s funeral\\
-\hline
-4 & @FoxNews & *Text Not Available. From a Suspended Account*\\
-\hline
-5 & @Lord\_Voldemort7 & once again, jk rowling is not working on an eighth harry potter book. i expect this rumour originated from either the quibbler or trelawney. \\
-\hline
-6 & @FoxNews & .@drzuhdijasser: ``it's disgraceful that this is...the mosque that [@potus] picked to be the first visit." @ffweekend \\
-\hline
-7 & @FoxNews & boko haram burns kids alive in northeast nigeria, witness says \\
-\hline
-8 & @FoxNews & *Text Not Available. From a Suspended Account* \\
-\hline
-9 & @FoxNews & .@danaperino: ``if i were in... legal trouble, i would call @hillaryclinton to find out how do you get out of it." \\
-\hline
-10 & @stephenfry & this is just about the weirdest fetish i've ever heard of. what was he thinking of? (via @elvis717) \\
-\hline
-11 & @HuffPost & no, internet, betty white is not dead \\
-\hline
-12 & @HuffPost & banksy shares simple but beautiful tribute to charlie hebdo cartoonists \\
-\hline
-13 & @HuffPost & michael jackson told oprah he doesn't want a white actor playing him in 1993\\
-\hline
-14 & @ndtv & first pics from the site in ukraine where \#mh17 crashed\\
-\hline
-15 & @HuffPost & gerrymandering is even more infuriating when you can actually see it \\
-\hline
-16 & @empiremagainze & he was severus snape. he was the sheriff of nottingham. he was alexander dane. he was, of course, hans gruber. we are devastated. \\
-\hline
-17 & @deray & y'all, i just read that abc paid darren wilson \$500k for the interview. destroying black life remains a lucrative american career. \#ferguson \\
-\hline
-18 & @jensan1332 & \#muslim arrested in \#texas today with \#isis flag on body armor \\
-\hline
-19 & @Complex & someone spray painted a penis on a \$2.4 million bugatti veyron \\
-\hline
-20 &@AlfredoFlores & i feel some type of way. \\
-\hline
-21 & @TMZ & stephen collins -- cops swarm home after suicide report ... false alarm \\
-\hline
-22 & @chrissyteigen & deep-fried left wings demo-crab cakes barack-amole \& chips malia quesadillas hawaiian pizza sloppy joe bidens obamacare-rot cake \\
-\hline
-23 & @BuzzFeed & breaking news: durex has not come out with a pumpkin spice condom \\
-\hline
-24 & @piersmorgan& breaking news: banksy not arrested, cover not blown. \\
-
-\hline
-\caption{Results of Algorithm on Twitter15 Set}
-\label{Results of Algorithm Twitter15}
-\end{longtable}
-
-\subsubsection{Analysis}
-Even setting $\langle \rho_{\Delta} \rangle$ to 0.5, highly partisan content still rose to the top of this list. 10 out of the 24 tweets that the algorithm selected are partisan in nature(Tweets 1, 2, 3, 4, 6, 8, 9, 15, 17, 18), 1 is clearly spam (Tweet 22), and 2 are news that need to be fact-checked (Tweets 7 and 14). Arguably, it is worthwhile for tweets surrounding celebrity deaths (Tweets 11, 16, and 21) to be fact-checked even though they aren't partisan in nature, since death hoaxes are a common source of fake news \cite{moses2017celebrity}.
-
-It correctly vaccinated Tweet 1 first, as it had high values for $\mu_1$, $\mu_2$, $\mu_3$, and $\mu_4$: it came from a source with a high number of followers, focused on one of the top 10 bigrams (Darren Wilson was the officer who shot Michael Brown in Ferguson, MO \cite{halpern2015cop}), and was spreading quickly. The $v_c$ for this tweet at $j=1$ was 0.9959 -- almost every single node would have to be vaccinated or immunized in order to prevent this post from spreading. This charge by @deray is exactly the sort of tweet that should be checked first: it's on a controversial topic, it's \textit{sythetic a posteriori} knowledge, it's partisan, and could muddy the waters of discussion on the topic. 
-
-This algorithm correctly vaccinated Tweet 5, since, even though it is not partisan in nature and not on an important topic, the number of users retweeting exceeded the number of followers very quickly. This implies an out-of-control virality, which should be checked.
-
-This algorithm also correctly vaccinated Tweet 16. This tweet had the highest $\mu_3$ values for several of the previous time periods, but there was always a tweet with a higher $\zeta$ value, typically because of a much higher $\mu_1$ value. This is a situation where weighting the $\mu$ values would likely have provided different results, and tweet 16 may have been vaccinated earlier in the process, whereas tweet 13 may have been vaccinated later or not at all. 
-
-
-
-\subsection{PHEME Data Set}
-The PHEME data set is made up of 105,354 tweets and 7,442 source tweets. A source tweet is defined as a tweet where the ``in$\_$reply$\_$to$\_$status$\_$id" field in the twitter API JSON field is null. 
-
-These tweets cover nine events - five actual and four rumors:
-\begin{itemize}
-    \item The 2014 unrest in Ferguson after the shooting of Michael Brown
-    \item The 2014 shooting in Ottawa where a Canadian soldier died
-    \item The 2014 siege of the Lindt chocolate caf{\'e} in Sydney by a gunman 
-    \item The 2015 shooting of journalists at the Charlie Hebdo newspaper
-    \item The 2015 crash of the Germanwings airplane between Barcelona and D\"{u}sseldorf
-    \item The 2014 rumor that Prince would play a concert in Toronto
-    \item The 2014 rumor that the Bern Museum of Fine Arts would accept art from the son of a Nazi art dealer
-    \item The 2015 rumor that something had happened to Vladimir Putin after he was ``missing" for 10 days
-    \item The 2014 rumor that AC Milan footballer Michael Essien had contracted Ebola.
-\end{itemize}
-The breakdown of number of tweets per topic is as follows:
-\begin{table}[h]
-    \centering
-    \begin{tabular}{|p{4cm}|p{3cm}|}
-    \hline
-    Topic & Total Tweets \\
-    \hline
-         Ferguson Shooting & 1183 \\
-         Ottawa Shooting & 901 \\
-         Sydney Siege & 1321 \\
-         Charlie Hebdo & 2169 \\
-         Germanwings & 1022 \\
-         Prince Concert & 241 \\
-         Nazi Art & 386 \\
-         Putin Missing & 266 \\
-         Essien Ebola & 18 \\
-    \hline
-    \end{tabular}
-    \caption{\textit{PHEME} tweets per topic}
-    \label{tab:pheme tweets per topic}
-\end{table}
-
-\subsubsection{Caveats/Cleaning}
-\label{PHEME caveeats}
-The most obvious caveat here is that the tweets themselves are already clustered in to very few topics, so $\mu_2$ will likely not be a particularly meaningful metric here.
-
-The data is not partitioned here - every tweet is in TwitterAPI JSON format, so there is a timestamp associated with it. Since some of these topics took place in different years, $j$ will be used here instead of the actual timestamp, where $j$ is the time in minutes between the source tweet and all subsequent retweets.
-
-All tweets in the set where the ``in$\_$reply$\_$to$\_$status$\_$id" field in the twitter API pointed towards a tweet that was not in the data set were dropped, via an inner join between the total set of tweets and the set of source tweets. 
-
-As with the \textit{Twitter18} data set, the \textit{PHEME} data set also provides $\tau' \in \{0,1\}$ for each tweet. These values are also removed from the analysis, as the truth value is not relevant for determining which tweet threads should be fact-checked.
-
-Another key caveat is that the retweet paths are likely incomplete. For example in the Daily Mail tweet (Fig. \ref{fig:Daily Mail Tweet, Jan 7, 2015}), there were 212 retweets at the time the JSON file was created. However, in this dataset, there are only 26 retweets. 
-
- \begin{figure}[h!]
-    \centering
-    \includegraphics[width=9cm]{dailymail_charliehebdo.png}
-    \caption{Daily Mail Tweet, Jan 7, 2015 \cite{dailymail2015tweet}}
-    \label{fig:Daily Mail Tweet, Jan 7, 2015}
-\end{figure}
-
-This means that the $\lambda$ values for each tweet will have to be taken with a grain of salt. However, it is still usable for this thesis: given the information provided, is the algorithm able to successfully fact-check the most important strains of conversation? 
-
-\subsubsection{Data Analysis}
-The \textit{PHEME} set also follows a somewhat normal distribution of the $\log_{10}|Y|$ and $\log_{10}|Z|$ with a $\gamma_{in} = 3.2$ and a $\gamma_{out} = 1.02$. The $\gamma_{in}$ is larger than in the Arapacio set (2.2) and the \textit{Twitter15} set (2.6), yet it still falls within the boundaries of a scale free network. If anything, this set more closely aligns with a typical scale-free network, as $\gamma = 3$ is the standard value for the Barab{\'a}si-Albert model \cite{barabasi1999emergence,barabasi2000scale,pastor2001epidemic}.
- \begin{figure}[h]
-\minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{FollowerCountPheme.png}
-  \caption{Follower Count, $|Z|$, for \textit{PHEME} Set}\label{fig:Pheme Follower}
-\endminipage\hfill
-\minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{FollowingCountPheme.png}
-  \caption{Following Counts, $|Y|$, for \textit{PHEME} set}\label{fig:Pheme Following}
-\endminipage\hfill
-\end{figure}
-
-
-As expected, the $\mu_2$ values aligned closely to the topics:
-\begin{table}[h]
-    \centering
-    \begin{tabular}{|p{4cm}|p{2cm}|}
-    \hline
-         charlie, hebdo & 362 \\
-         $\#$ferguson, police & 233 \\
-         $\#$charliehebdo, attack & 157 \\
-         parliament, hill & 128 \\
-         war, memorial & 120 \\
-         massey, hall & 103 \\
-         hostage, situation & 102 \\
-         sydney, cafe & 98 \\
-         michael, brown & 95 \\
-         police, chief & 88 \\
-    \hline
-    \end{tabular}
-    \caption{$\mu_2$ results}
-    \label{tab:mu_2 results pheme}
-\end{table}
-
-Interestingly, the distribution of bigrams is not proportional to the number of tweets: Charlie Hebdo tweets make up 29\% of the tweets, but are only 20\% of the top bigrams, while the Ottawa Shooting was 12\% of the tweets but 30\% of the bigrams. Ferguson similarly only made up 16\% of the total tweets, but mad eup 30\% of the bigrams.
-
-At the same time, it is important to recognize how many tweets use the two Charlie Hebdo bigrams - those two appear 519 times, while the Ottawa Shooting bigrams appear 351 times and the Ferguson Shooting bigrams appear 416 times. A future course of study could be to analyze if there are underlying reasons why a particular topic might be more or less prone to having multiple smaller bigram variations vs. one large and consistent bigram.
-
-Perhaps this can provide a non-malicious explanation to the charges of censorship provided by Tufecki and Lotan (Sec. \ref{sec: what is being shared}): individuals talking about the death of Freddie Gray will likely use a combination of phrases to describe this topic (freddie, gray; baltimore,grey; police, brutality; etc.) whereas all tweets on the ice bucket challenge will likely feature two bigrams (ice bucket, bucket challenge). A human could probably piece together all of the Freddie Gray bigrams as being related to a single topic, but a neural network could not.
-
-\subsubsection{Experimentation & Analysis}
-The same list of users that were excluded from the \textit{Twitter18} set, namely verifiable and trusted news sources, were also removed from the \textit{PHEME} set.
-
-\begin{longtable}{ |p{0.5cm}|p{4.1cm}|p{12cm}|  }
-\hline
-\multicolumn{3}{|c|}{Algorithm Results} \\
-\hline
-$j$ & User & Tweet Text \\
-\hline
-1 & @guardian & Charlie Hebdo: Don’t blame this bloodshed on France’s Muslims | Nabila Ramdani [URL]\\
-\hline
-2 & @Ashton5SOS & Hearing about the hostage situation in Sydney, I hope everything calms soon, and no one is harmed\\
-\hline
-3 & @AFP & #BREAKING Charlie Hebdo gunmen's hostage freed and safe after police assault\\
-\hline
-4 & @stephenfry & Publish a Charlie Hebdo cartoon: show them the pen will still flourish when their guns have rusted [URL] \#JeSuisCharlie\\
-\hline
-5 & @stephenfry & Solidarity with \#JeSuisCharlie mass posting Charlie Hebdo cartoons 2 pm today UK time [URL] @englishpen @IndexCensorship \\
-\hline
-6 & @AFP & \#BREAKING Killed Charlie Hebdo suspects came out firing on security forces: source \\
-\hline
-7 & @guardian & Free speech must not be silenced in the wake of Charlie Hebdo attack [URL] \\
-\hline
-8 & @RichardBranson & Magnificent cartoons in response to Charlie Hebdo attack. ``He drew first" particularly powerful [URL] \#JeSuisCharlie \\
-\hline
-9 & @FoxNews & BREAKING: Paris police say shots fired at satirical newspaper Charlie Hebdo; witness says multiple gunmen involved. \\
-\hline
-10 & @guardian & Steve Bell on the Charlie Hebdo attackers – cartoon [URL] \\
-\hline
-11 & @HuffPost & BREAKING: Hostage taken after Charlie Hebdo suspects sighted north of Paris [URL] \\
-\hline
-12 & @guardian & Charlie Hebdo: Norway didn’t give in to Islamophobia, nor should France [URL] @owenjones84\\
-\hline
-13 & @WIRED & Why terrorists can't kill Charlie Hebdo‘s ideas [URL]\\
-\hline
-14 & @guardian & Charlie Hebdo: Now is the time to uphold freedoms, not give in to fear, says @simonjenkins4 [URL]\\
-\hline
-15 & @guardian & Charlie Hebdo staff vow to publish next week with 1m print run [URL] \\
-\hline
-16 & @guardian & Charlie Hebdo: appears that Charlie Hebdo suspects have been killed – live updates [URL] \\
-\hline
-17 & @guardian &Charlie Hebdo attack: minute's silence held for victims around the world [URL] [URL] \\
-\hline
-18 & @guardian & Charlie Hebdo attack: what we know so far  – live updates [URL] @claire$\_$phipps [URL] \\
-\hline
-19 & @guardian & Eleven dead in shooting at Paris offices of satirical magazine Charlie Hebdo – live updates [URL] \\
-\hline
-20 & @guardian & After the Charlie Hebdo attack, we must resist the clash-of-civilisations narrative | Homa Khaleeli [URL] \\
-\hline
-21 & @guardian & A brief history of Charlie Hebdo, the satirical magazine at the centre of today's terror attack in Paris [URL] \#paris \\
-\hline
-22 & @guardian & Charlie Hebdo cartoonist Wolinski’s daughter: ‘I don’t think you can kill ideas’ [URL] \\
-\hline
-23 & @guardian & Charlie Hebdo shooting: reports of attacks on Mosques in France – live updates [URL] \\
-\hline
-24 & @guardian & French forensic experts examine car used by armed gunmen who stormed offices of Charlie Hebdo [URL] [URL] \\
-
-\hline
-\caption{Results of Algorithm on PHEME Set}
-\label{Results of Algorithm PHEME}
-\end{longtable}
-
-The fact that these results are dominated by posts from The Guardian illustrate the issue presented in the caveats section a moment ago (Sec. \ref{PHEME caveeats}). As seen from the tweets, they should not be white-listed as they mix objective reporting (Tweets 15, 16, 17, 18, 19, 21, 22, 23, 24) with opinion pieces (Tweets 1, 2, 3, 12, 14). Therefore, they should not be white-listed. Therefore, they should always be fact checked. At the same time, their large base of followers created a severely inflated $\mu_1$ value which drowned out many of the other posts.
-
-However, an examination of the $\mu_6$ metric over the time period (Fig. \ref{fig:mu6 PHEME}) shows that the algorithm was successful. While it did not catch every piece of misinformation (the false article by the Daily Mail in tweet Fig. \ref{fig:Daily Mail Tweet, Jan 7, 2015} was not fact-checked by this algorithm), those posts reached dead-ends so quickly that they did not need to be fact checked. This data set went from $v_c = 0.7$ when $j = 1$ to $v_c = 0$ when $j = 24$. 
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=8cm]{mu_6 pheme.png}
-    \caption{Plot of $\mu_6$ values for each time period in \textit{PHEME} set}
-    \label{fig:mu6 PHEME}
-\end{figure}
- 
-Because the drop off was so steep, this experiment was re-run with $j$ being in 3 second increments for the first minute (20 total time steps):
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=8cm]{mu_6 3 second intervals through one minute.png}
-    \caption{Plot of $\mu_6$ values for each time period in \textit{PHEME} set, 3 second intervals up to 1 minute}
-    \label{fig:mu6 PHEME 3s}
-\end{figure}
-
-The algorithm continues to succeed in dropping the $v_c$ rate at a rapid pace from 1 to 0.67. The $v_c$ rate rebounds up to approximately 0.7 at 1 minute, but it is still lower then where it begins. Given the sporadic nature of tweets and the incomplete nature of this data set (as mentioned in Sec. \ref{PHEME caveeats}), it is not surprising that $v_c$ when $j=0.15$ is greater than when $j = 0.1$. In fact, this is further proof the algorithm works: the tweet with the $\lambda$ value caused the overall $\mu_6$ to rise at $j = 0.15$ was vaccinated at that point, hence the steep decline when $j = 0.2$. This algorithm is able to identify tweets with \textit{newly} high $\lambda$ values and vaccinate them quickly. This benefit of an iterative process is missing from the RNN/CNN solutions, as has been discussed earlier.
-
-Interestingly, only 3 tweets were in both sets (Tweets 1, 3, and 6 in Table \ref{Results of Algorithm PHEME}), but each of these had high $\lambda$ values early in the process, hence why the $\mu_6$ value in the initial process dropped to near 0 when $j > 6$.
-
-\section{Conclusion}
-\subsection{Discussion}
-The goal of this thesis was to provide a framework by which a fact checking team could maximize their resources and combat fake news in a scalable fashion. This solution has been provided. Unlike other fake news detection processes, it is adaptable to the user in question (Eq. \ref{mu_1 equation}), it factors in the importance of a topic on a given day (Eq. \ref{mu_2 equation}), it includes epidemic spreading rate of that particular tweet (Eq. \ref{mu_3 equation}), it de-prioritizes content at the end of its lifespan (Eq. \ref{mu_4 and mu_5}), and it provides a global KPI for the team to benchmark their successes (Eq. \ref{mu_4 and mu_5}).
-
-From an epistemological standpoint, this thesis breaks down statements into various categories with assigned possible $\tau$ values, to separate content that machine learning is uniquely suited for and content that it is not. This is a stumbling block for global RNN solutions as they struggle with posts that are vague, hyperbolic, ironic, sarcastic, etc. This thesis makes no judgment about truth values, therefore there is no fear that an ironic statement will be deemed false. 
-
-Visualizing this problem as an epidemic spread instead of a machine learning problem further allows for a recognition that not every node is susceptible to each particular strain of fake news (Eq. \ref{immunity equation}). It provides for the problem of echo-chambers (Sec. \ref{sec: echo chambers}) by factoring in partisanship into the Barab{\'a}si-Albert preferential attachment equation (Eq. \ref{Pdotpartisan}) and recognizing that highly partisan environments are breeding grounds for malicious actors. These issues of partisanship are included in $\tilde{\psi}$ and in the calculation of $u^*$'s. This allows for posts to be ranked according to communal susceptibility, whereas other solutions offer only blanket solutions based on text patterns and user information patterns. 
-
-This solution is easily repeatable on a daily basis. By using moving averages for content with a half-life (Eqs. \ref{Finch Equations}), topics that were relevant last week but not this week fall off and are replaced by more significant topics. By including the moving variance as well, topics that have typically low volumes but then see large spikes, such as the preparation for the January 6th insurrection at the U.S. Capitol \cite{Levenson2021capitol}, would be caught by this metric. 
-
-By not attempting to catch every error and fact-check every post, the resources here are maximized. Most tweets quickly reach a dead end and have no further spread; spending any time checking them is wasted effort. As seen in figure \ref{fig:mu6 Twitter18}, after ``vaccinating" only 24 tweets from the data set, the remainder of the tweets had an extremely lower spread: at the beginning 89\% of the tweets would have to be removed to stop viral spread; at the end, only 10\% needed to be. It successfully identified the super-spreaders and targeted them first.
-
-Finally, the resources required for this are far lower than those needed for an RNN that would attempt to check all of the 550 million tweets written per day. Many of these underlying numbers, such as $|\psi|$ values for each user, are relatively static and easily selected from the available data layers. The equations using those numbers are far less resource intensive than the perpetual training and implementation of a CNN or RNN. As mentioned in \ref{what is being shared summary}, yesterday's topics are not the same as today's topics; text/user patterns that the neural networks detected yesterday are easily changed today. That will require constant training, which will be heavily resource intensive. This thesis solves that.
-
-A supplementary solution to this algorithm would be an inclusion of an impartial ``Supreme Court" for fake news on social media platforms. Individuals who believe their content has been incorrectly removed can appeal to a ``Supreme Court" who can decide to reinstate the post if they concur that it was removed in error. This is already in practice in collaborative knowledge sharing communities, such as Wikipedia \cite{hara2016co}, and has successfully help arbitrate between strongly held opinions and empirically derived facts. 
 
 \subsection{Next Steps}
 The next steps for validating this algorithm would be to use a much larger data set on computers with more sophisticated resources. Every piece of coding for this thesis was performed on a 2020 MacBook Air with only 8GB of RAM. Server level machines would be able to run this exact same algorithm much faster, and would be able to process the $\approx 6,366$ tweets that are posted every second on average. 
@@ -1635,104 +822,6 @@ The next steps for validating this algorithm would be to use a much larger data 
 After that iteration, the next step would be to determine the $\beta$ weights for each $\mu$ value. For this thesis, every $\mu$ value was transformed using minmax, which made every $\mu$ value equally important. After several iterations of this algorithm, it may be determined that $\mu_3$ is far more important than $\mu_2$ in determining if content needs to be flagged for analysis -- the inclusion of $\beta$ weights will allow for this observation and may be recalibrated on an iterative basis until the optimal values are discovered.
 
 
-%% The Appendices part is started with the command \appendix;
-%% appendix sections are then done as normal sections
-\appendix
-
-\section{Truth Values}
-\label{truthvalue appendix}
-\subsection{Analytic a Priori}
-An \textit{analytic a priori} statement's truth value is ``true by virtue of meanings and independent of fact" \cite{quine1951main}. 
-For example, proposition 1: \begin{center}
-    $P_1$: All triangles have three sides.
-\end{center}
-The predicate ``having three sides" is contained within the meaning of the word ``triangle". There is no need to observe a given triangle in order to know that it must have three sides.
-
-For the purposes of this discussion, racial slurs and other such language shall be considered \textit{analytic a priori} hate speech, as there is no need to observe all racial slurs in order to know that they were created and used with hate speech as the intent. Hate speech are fundamentally false statements \cite{waldron2012harm}, which automatically mean $\tau = 0$ .
-
-\subsection{Synthetic a Priori}
-A \textit{synthetic a priori} statement is true if it is universally true, no experience is needed to confirm it, but it is also not definitional in nature:
-\begin{center}
-    $P_2$: The sum of two sides of a triangle are greater than the third side.
-\end{center}
- 
-As with $P_1$, there is no need to measure every triangle in existence to confirm this statement is true, yet there is nothing contained in the definition of a triangle that implies this relationship between the three sides.
-
-In this thesis, spam will be considered false \textit{synthetic a priori} statements. Naive-Bayes classifiers have been incredibly successful at detecting spam messages \cite{wang2010detecting,xu2019exploiting,ahmed2018detecting}, in large part because they consistently illustrate the same telltale signs of being spam: broken English, seemingly random URL links, etc. Therefore, \begin{center}
-    $P_3$: Spam messages are unsolicited messages that feature broken English, random links, etc. \\
-$P_4$: Unsolicited messages that meet the requirements of $P_3$ are not truthful.\\
-$C$: Spam messages are not truthful.
-\end{center}
- 
-This syllogism is logically valid even though there is nothing in the definition of the word ``spam" that leads to a truth value. Therefor, spam messages may also be set to $\tau = 0$.
-
-
-\subsection{Analytic a Posteriori}
-A statement is \textit{analytic a posteriori} if it is true by virtue of its definition, but requires empirical evidence to discover it \cite{kripke1972naming}. Kripke gives the example of Venus being both the morning and evening star: \begin{center}
-   $P_5$: Venus is the morning star.\\
-$P_6$: Venus is the evening star.\\
-$C$: The morning star is the evening star. 
-\end{center}
-
-
-While this statement is necessarily true based off of the definitions of ``morning star" and ``evening star", it can't be considered \textit{a priori} true, as Homer (12th century BCE) refers to the morning and evening stars as separate objects, and it isn't until Pythagoras (500 BCE) that it is a scientifically accepted fact that the morning and evening stars refer to the same object, Venus \cite{dunne1978voyage}.
-
-Scientific information would largely fall into this category. Propositions such as: 
-\begin{center}
-    $P_7$: Water is H$_2$O.
-\end{center} 
-are necessarily true and definitionally true, but were not known since the start of time -- in the case of water, it was not formally known until Avogadro in 1811. Scientific conspiracies such as the Earth being flat, would therefore be examples of \textit{analytic a posteriori} misinformation, as the Earth being round is scientifically true and definitionally true, per Frege, as any complete definition of the Earth would have to imply that it was a round planet \cite{frege2003sense}. Scientific misinformation that is definitionally true can also be set to $\tau = 0$.
-
-\subsection{Synthetic a Posteriori}
-A statement is \textit{synthetic a posteriori} if its truth value is contingent upon experience and non-definitional in nature. Statements such as: \begin{center}
-    $P_8$: John Adams and Thomas Jefferson both died on July 4th, 1826.
-\end{center}
-
-would be \textit{synthetic a posteriori} true statements, as they are objectively true, but there is nothing in the definition of ``John Adams" or ``Thomas Jefferson" that implies a death date. External verification is necessary in order to determine the truthfulness of the statement.
-
-The majority of the statements that Wu et al. attempt to break into subgroups would all be considered \textit{sythentic a posteriori} statements here: rumors, legends, etc. may or may not be true, but require external validation in order to determine their truthfulness.
-
-\subsection{Hyperbole, Sarcasm, and Irony}
-\label{hyperbole}
-Finally, hyperbole, sarcasm, and irony should be separated from our truth value set, as these are statements that are intentionally false to point to a greater underlying truth. 
-Current literature on using NLP to decipher sarcasm and irony primarily revolves around unexpected word combinations \cite{barbieri2014modelling,buschmeier2014impact,ghosh2015sarcastic} or RoBERTa recurrent neural networks \cite{potamias2020transformer}, and they all examine publicly available data sets, namely the Riloff Twitter set \cite{riloff2013sarcasm}, the Pt{\'a}{\v{c}}ek Twitter set \cite{ptavcek2014sarcasm}, the Khodak Reddit set \cite{khodak2017large} and two ``Semantic Evaluation Workshop Tasks" \cite{van2018semeval,ghosh2015semeval}. Many of these are able to generate quite high F1 scores, especially the RCNN-RoBERTa transformer proposed by Potomias, Siolas, and Stafylopatis, whose F1 score was consistently around 0.8 in each of the unique data sets. 
-
-However, as Oprea and Magdy point out, tools that are successful in one data set struggle in other data sets. Models trained in the Riloff data set can generate an F1 score above 0.8, but those same models will generate an F1 score near 0.5 (which is the same as random guessing) when applied to the Pt{\'a}{\v{c}}ek set \cite{oprea2019exploring}. This implies there are extreme differences in how groups express and perceive irony/sarcasm/hyperbole. Those differences are beyond the scope of what RNNs and RCNNs can currently successfully grasp. Therefore an alternative solution to handling irony on a global level is necessary.
-\subsection{Summary}
-\label{truthvalueappendixsummary}
-To summarize, with examples of misinformation according to each distinction (table \ref{tab:misinformationexamples}),
-\begin{table}[htbp]
-    \centering
-    \begin{tabular}{ |p{3cm}|p{5cm}|p{5cm}|}
-    \hline
-    & Analytic & Synthetic\\
-    \hline
-    A Priori & Hate Speech & Spam\\
-    \hline
-    A Posteriori &  Scientific Misinformation  & General Misinformation\\
-    \hline
-    \end{tabular}
-    \caption{Misinformation Examples of Analytic/Synthetic Distinctions}
-    \label{tab:misinformationexamples}
-\end{table}
-in terms of truth values, $\tau$, \textit{a priori} and \textit{analytic} statements are binary, but \textit{synthetic a posteriori} sentences may have a range of truthfulness (such as being misleading, partially true, mostly true, etc.) (table \ref{tab:truthvalues}).
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{ |p{3cm}|p{5cm}|p{5cm}|}
- \hline
-  & Analytic & Synthetic\\
- \hline
- A Priori & $\tau \in \mathbb{B}$ & $\tau \in \mathbb{B}$\\
- \hline
- A Posteriori &  $\tau \in \mathbb{B}$  & $\tau \in \mathbb{R} \ | \ 0 \leq \tau \leq 1$ \\
- \hline
-\end{tabular}
-\caption{Truth Values of Analytic/Synthetic Distinctions}
-\label{tab:truthvalues}
-\end{table}
-
-These proposed distinctions better capture the breadth of misinformation than the previously provided definitions: as with Klein, it concurs that intentionality is not relevant in determining truth value; unlike Wu et al. or DiFonzo \& Bordia, it makes no distinction between types of misinformation such as ``rumor" and ``misinformation"; unlike Liu \& Wu, it separates hate speech, spam, and scientific misinformation from generalized misinformation; unlike all other examples, it includes sarcasm, hyperbole, and irony. 
 
 \newpage
 \bibliographystyle{elsarticle-num-names} 
